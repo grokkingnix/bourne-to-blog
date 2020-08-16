@@ -43,7 +43,7 @@ A third feature is currently being developed
 
 1. `su - root` 
 2. `wget https://github.com/grokkingnix/bourne-to-blog/blob/master/blog -P /usr/local/bin/`
-3. `chown YOUR_USER:YOUR_USER_GROUP` i.e. `chown username:groupname`
+3. `chown YOUR_USER:YOUR_USER_GROUP /usr/local/bin/blog` i.e. `chown username:groupname /usr/local/bin/blog`
 4. `chmod +x /usr/local/bin/blog`
 5. `vim /usr/local/bin/blog`
 
