@@ -1,0 +1,156 @@
+#! /bin/bash
+
+# Edit these variables to your fit your environment before first use
+
+# Start editing
+############
+
+# Define global script variables
+# Source directory that contains the original .md files to process
+SOURCE_DIR=/path/to/the/md/files/that/will/be/built
+
+# The format/extension that the files to process are in
+SOURCE_EXTENSION=*.md
+
+# Full path to the header file, this file should contain html
+HEADER_FILE=/path/to/the/header/file.html
+
+# Full path to the footer file, this file should contain html
+FOOTER_FILE=/path/to/the/foother/file.html
+
+# Local directory to store html files created by the buildWebsite function
+WORK_DIR=/directory/to/store/your/built/blog/posts
+
+# Variables for SFTP connection
+USER=ftpusername
+HOST=ftp.host.name.com
+IDENTITY_FILE=/home/username/.ssh/identity-file
+
+# Blog posts path on the public server
+BLOG_PATH=/blog/path/on/your/webserver
+
+# Stop editing
+#############
+
+# Script functionality begins
+#############
+# If you edit anything below this point, you may break the script!
+
+# Define the flags the user can pass to the script
+while getopts bp flag
+do
+    case "${flag}" in
+	b) BUILD=true;;
+	p) PUBLISH=true;;
+esac
+done
+
+# Execution message for the buildWebsite function
+EXEC_MSG="Building Posts"
+
+# Completion message for the buildWebsite function
+COMPLETION_MSG="Posts Built"
+
+# No files to upload message for the publishPosts function
+NO_FILES_MSG="There are no new posts to publish"
+
+# Define the GREP_REGEX variable with the regex to obtain the date from the ls command
+GREP_REGEX="[0-9][0-9]:[0-9][0-9] [A-Za-z]"
+
+# Define the EXT_REGEX variable with extended grep regex to match post names
+EXT_REGEX=".{0,200}"
+
+# Commands to be executed while connected to the web server over SFTP
+REMOTE_LS="ls -l $BLOG_PATH"
+
+# Define the LOCAL_LS variable with the output from the ls command on the local machine
+LOCAL_LS=`ls -l`
+
+# Define the OUTPUT variable with the output from the REMOTE_LS command over the SFTP connection on the webserver
+OUTPUT=`(echo "$REMOTE_LS"; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST"`
+
+# Define the FILES variable with the value of the local files names that are not present on the file server
+FILES=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //'`
+
+# Define the NUMBER variable with the count of files to be uploaded to the webserver
+NUMBER=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //' | wc -l`
+
+# Function that will build the posts
+function buildPosts() {
+
+    # Message when starting the function
+    echo $EXEC_MSG
+
+    # For loop that goes over all files with the .md extension in the specified directory
+    for FILE in $SOURCE_DIR$SOURCE_EXTENSION
+    do
+        # Define for loop variables
+        # Define the FILE_NAME variable from the FILE variable value, removes the extension
+        FILE_NAME=`basename "$FILE" | cut -d "." -f 1`
+    
+        # Define the HEADER_FILE variable from the global HEADER_FILE variable value
+        HEADER_FILE=$1
+    
+        # Define the FOOTER_FILE variable from the global FOOTER_FILE variable value
+        FOOTER_FILE=$2
+    
+        # Define the TEMP_PATH variable from the global TEMP_PATH variable value
+        WORK_DIR=$3
+
+	# Define the CURRENT_FILE variable
+	CURRENT_FILE="Creating $FILE_NAME"
+    	
+        # Echo the name of the file that is being created
+        echo $CURRENT_FILE
+    
+        # Use the Markdown library to create the temporary html file
+        markdown $FILE > $WORK_DIR$FILE_NAME
+    
+        # Build the page with the header.txt content and the footer.txt content and write the new HTML file
+        cat $HEADER_FILE $WORK_DIR$FILE_NAME $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
+    
+        # Delete the initial file with no html extension
+        rm $WORK_DIR$FILE_NAME
+    
+    # End the for loop
+    done
+
+    # Echo a completion message
+    echo $COMPLETION_MSG 
+}
+
+# Function that will publish the posts to the public web server
+function publishPosts() {
+
+    # Change into the working directory defined by WORKING_DIR
+    cd $WORK_DIR
+
+    # Determine if there are any files that need to be uploaded to the webserver
+    if [ $NUMBER -ge 1 ]
+    then
+	
+	# Upload the files in the FILES variable to the webserver
+	echo "$FILES" | while read LINE ; do (echo cd $BLOG_PATH; echo lcd $WORK_DIR; echo put $LINE; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST" ; done
+    
+    else
+
+	# Echo a message and do nothing if there are no new files
+	echo $NO_FILES_MSG
+    fi
+}
+
+# Execute the buildPosts function if the -b flag was specified by the user 
+if [ $BUILD ]
+then
+
+    # Call the buildWebsite function and pass global variables
+    buildPosts $HEADER_FILE $FOOTER_FILE $WORK_DIR
+fi
+
+# Execute the publishPosts function if the -p flag was specified by the user 
+if [ $PUBLISH ]
+then
+
+    # Call the publishPosts function and pass global variables
+    publishPosts
+fi
