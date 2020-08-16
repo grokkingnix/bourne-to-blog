@@ -57,7 +57,6 @@ A third feature is currently being developed
     ## It was very simple to accomplish
     
     This is my first blog post using `Bourne to Bash`
-    
 ```
 
 2. From the command line run the `blog -b` command to build your first blog post, at this point you can preview what your blog post will look like before publishing it publicly.
