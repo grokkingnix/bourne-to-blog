@@ -1,4 +1,4 @@
-# Bourne to Blog (Create your blog from bash)
+# Bourne to Blog 
 
 ## About
 
