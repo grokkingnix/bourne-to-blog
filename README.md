@@ -52,11 +52,11 @@ A third feature is currently being developed
 1. Simply create a text file using the markdown extension `.md` with your favorite text editor, for example:
 
 ```
-    # This is my first blog post!
-    
-    ## It was very simple to accomplish
-    
-    This is my first blog post using `Bourne to Blog`
+# This is my first blog post!
+ 
+## It was very simple to accomplish
+ 
+This is my first blog post using `Bourne to Blog`
 ```
 
 2. From the command line run the `blog -b` command to build your first blog post, at this point you can preview what your blog post will look like before publishing it publicly.
