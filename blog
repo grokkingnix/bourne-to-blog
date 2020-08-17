@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# Edit these variables to your fit your environment before first use
+# Edit these variables to fit your environment before first use
 
 # Start editing
 ############
@@ -106,7 +106,7 @@ function buildPosts() {
         # Use the Markdown library to create the temporary html file
         markdown $FILE > $WORK_DIR$FILE_NAME
     
-        # Build the page with the header.txt content and the footer.txt content and write the new HTML file
+        # Build the page with the header file content and the footer file content and write the new HTML file
         cat $HEADER_FILE $WORK_DIR$FILE_NAME $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
     
         # Delete the initial file with no html extension
