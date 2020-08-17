@@ -4,13 +4,13 @@
 
 Bourne to Blog is a bash script to create blog posts from `.md` files in a simple manner.
 
-I am currently working on a [blog](https://nixing.mx/blog/blog.html) post for additional information on my motivation to create this tool
+You can take a look at this [blog](https://nixing.mx/blog/update-to-my-blogging-workflow.html) post for additional information on my motivation to create this tool
 
 ## Demo
 
-You can take a look at my [blog](https://nixing.mx/blog) for a sample of what type of blog posts will be produced by using Bourne to Blog.
+You can take a look at my [blog](https://nixing.mx/blog/blog.html) for a sample of what type of blog posts will be produced by using Bourne to Blog.
 
-You can also take a look at other's blogs created with bourne to blog [here](https://github.com/grokkingnix/bourne-to-blog/blob/master/samples/sample-blogs.md).
+You can also take a look at other's blogs created with Bourne to Blog [here](https://github.com/grokkingnix/bourne-to-blog/blob/master/samples/sample-blogs.md).
 
 ## Features
 
@@ -26,8 +26,8 @@ A third feature is currently being developed
 ## Requirements
 
 - A Bash CLI environment (Not yet tested on other shell environments but I believe it should work as well)
-- The [discount](https://github.com/nueh/discount) markdown to html convertion tool
-- An existing STFP capable public webserver
+- The [discount](https://github.com/nueh/discount) markdown to html conversion tool
+- An existing STFP capable public web server
 
 ## Installation
 
@@ -61,7 +61,7 @@ A third feature is currently being developed
 
 2. From the command line run the `blog -b` command to build your first blog post, at this point you can preview what your blog post will look like before publishing it publicly.
 
-3. Once you like the way your blog post looks you can publish it to your public webserver with `blog -p`.
+3. Once you like the way your blog post looks you can publish it to your public web server with `blog -p`.
 
 Done! You can now visit your public web server address and check your blog post out! 
 
