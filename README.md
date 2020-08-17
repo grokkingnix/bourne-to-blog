@@ -37,7 +37,7 @@ A third feature is currently being developed
 2. Place it in `/usr/local/bin` directory
 3. Make your local user the owner of the `/usr/local/bin/blog` file
 4. Enable execution privileges to the `/usr/local/bin/blog` file
-5. Edit the `/usr/local/bin` file variables to fit your environment
+5. Edit the `/usr/local/bin/blog` file variables to fit your environment
 
 ### Slackware Installation
 
@@ -68,9 +68,12 @@ Done! You can now visit your public web server address and check your blog post 
 ## To-do
 
 1. Add RSS feed feature
-2. Add major Linux distribution installation instructions
-3. Add BSD installation instructions
-4. Add Mac installation instructions
+2. Add sample header file
+3. Add sample footer file
+4. Add sample CSS file
+5. Add major Linux distribution installation instructions
+6. Add BSD installation instructions
+7. Add Mac installation instructions
 
 ## License
 
