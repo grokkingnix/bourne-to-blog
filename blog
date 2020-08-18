@@ -67,9 +67,6 @@ EXT_REGEX=".{0,200}"
 # Command to be executed while connected to the web server over SFTP, to list contents of the BLOG_DIR directory
 REMOTE_LS="ls -l $BLOG_DIR"
 
-# Define the LOCAL_LS variable with the output from the ls command on the local machine
-LOCAL_LS=`ls -l`
-
 # Define the OUTPUT variable with the output from the REMOTE_LS variable value over the SFTP connection on the web server
 OUTPUT=`(echo "$REMOTE_LS"; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST"`
 
