@@ -122,9 +122,6 @@ function publishPosts() {
     # Define the NUMBER variable with the count of files to be uploaded to the webserver
     NUMBER=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //' | wc -l`
 
-    # Change into the working directory defined by WORKING_DIR
-    cd $WORK_DIR
-
     # Determine if there are any files that need to be uploaded to the webserver
     if [ $NUMBER -ge 1 ]
     then
