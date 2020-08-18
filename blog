@@ -9,8 +9,11 @@
 # Source directory that contains the original .md files to process
 SOURCE_DIR=/path/to/the/md/files/that/will/be/built
 
-# The format/extension that the files to process are in
-SOURCE_EXTENSION=*.md
+# Local directory to store html files created by the buildWebsite function
+WORK_DIR=/directory/to/store/your/built/blog/posts
+
+# Blog posts path on the public server
+BLOG_DIR=/blog/path/on/your/webserver
 
 # Full path to the header file, this file should contain html
 HEADER_FILE=/path/to/the/header/file.html
@@ -18,16 +21,13 @@ HEADER_FILE=/path/to/the/header/file.html
 # Full path to the footer file, this file should contain html
 FOOTER_FILE=/path/to/the/foother/file.html
 
-# Local directory to store html files created by the buildWebsite function
-WORK_DIR=/directory/to/store/your/built/blog/posts
-
 # Variables for SFTP connection
 USER=ftpusername
 HOST=ftp.host.name.com
 IDENTITY_FILE=/home/username/.ssh/identity-file
 
-# Blog posts path on the public server
-BLOG_PATH=/blog/path/on/your/webserver
+# The format/extension that the files to process are in
+SOURCE_EXTENSION=*.md
 
 # Stop editing
 #############
@@ -61,19 +61,13 @@ GREP_REGEX="[0-9][0-9]:[0-9][0-9] [A-Za-z]"
 EXT_REGEX=".{0,200}"
 
 # Commands to be executed while connected to the web server over SFTP
-REMOTE_LS="ls -l $BLOG_PATH"
+REMOTE_LS="ls -l $BLOG_DIR"
 
 # Define the LOCAL_LS variable with the output from the ls command on the local machine
 LOCAL_LS=`ls -l`
 
 # Define the OUTPUT variable with the output from the REMOTE_LS command over the SFTP connection on the webserver
 OUTPUT=`(echo "$REMOTE_LS"; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST"`
-
-# Define the FILES variable with the value of the local files names that are not present on the file server
-FILES=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //'`
-
-# Define the NUMBER variable with the count of files to be uploaded to the webserver
-NUMBER=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //' | wc -l`
 
 # Function that will build the posts
 function buildPosts() {
@@ -122,6 +116,12 @@ function buildPosts() {
 # Function that will publish the posts to the public web server
 function publishPosts() {
 
+    # Define the FILES variable with the value of the local files names that are not present on the file server
+    FILES=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //'`
+    
+    # Define the NUMBER variable with the count of files to be uploaded to the webserver
+    NUMBER=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //' | wc -l`
+
     # Change into the working directory defined by WORKING_DIR
     cd $WORK_DIR
 
@@ -130,7 +130,7 @@ function publishPosts() {
     then
 	
 	# Upload the files in the FILES variable to the webserver
-	echo "$FILES" | while read LINE ; do (echo cd $BLOG_PATH; echo lcd $WORK_DIR; echo put $LINE; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST" ; done
+	echo "$FILES" | while read LINE ; do (echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $LINE; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST" ; done
     
     else
 
