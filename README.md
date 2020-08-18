@@ -23,11 +23,20 @@ A third feature is currently being developed
 
 - Build and publish RSS feed
 
+## How it Works
+
+Bourne to Blog is designed to be installed in a common-access computer (laptop / desktop) with access to a public web server over SFTP (Internet).
+
+The expected workflow would be the following:
+
+![Bourne to Blog Workflow](samples/img/bourne-to-blog-workflow.png "Diagram showing the expected bourne to blog workflow")
+
 ## Requirements
 
 - A Bash CLI environment (Not yet tested on other shell environments but I believe it should work as well)
 - The [discount](https://github.com/nueh/discount) markdown to html conversion tool
-- An existing STFP capable public web server
+- Internet access (Only for publishing)
+- An existing STFP capable public web server (Only for publishing)
 
 ## Installation
 
