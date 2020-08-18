@@ -6,19 +6,19 @@
 ############
 
 # Define global script variables
-# Source directory that contains the original .md files to process
+# Source directory that contains the original files to process
 SOURCE_DIR=/path/to/the/md/files/that/will/be/built
 
-# Local directory to store html files created by the buildWebsite function
+# Directory to store html files created by the buildWebsite function
 WORK_DIR=/directory/to/store/your/built/blog/posts
 
 # Blog posts path on the public server
 BLOG_DIR=/blog/path/on/your/webserver
 
-# Full path to the header file, this file should contain html
+# Full path to the header file
 HEADER_FILE=/path/to/the/header/file.html
 
-# Full path to the footer file, this file should contain html
+# Full path to the footer file
 FOOTER_FILE=/path/to/the/foother/file.html
 
 # Variables for SFTP connection
@@ -30,18 +30,19 @@ IDENTITY_FILE=/home/username/.ssh/identity-file
 SOURCE_EXTENSION=*.md
 
 # Stop editing
-#############
+############
 
 # Script functionality begins
-#############
+############
 # If you edit anything below this point, you may break the script!
 
 # Define the flags the user can pass to the script
-while getopts bp flag
+while getopts bpf flag
 do
     case "${flag}" in
 	b) BUILD=true;;
 	p) PUBLISH=true;;
+	f) FORCE_PUB=true;;
 esac
 done
 
@@ -52,7 +53,10 @@ EXEC_MSG="Building Posts"
 COMPLETION_MSG="Posts Built"
 
 # No files to upload message for the publishPosts function
-NO_FILES_MSG="There are no new posts to publish"
+NO_FILES_MSG="There are no new posts to publish, the $WORK_DIR directory is empty. Try running blog -b first or blog -bf."
+
+# No files to upload message for the publishPosts function
+NO_FILES_MSG1="There are no new posts to publish, if you want to overwrite posts use the -f flag instead."
 
 # Define the GREP_REGEX variable with the regex to obtain the date from the ls command
 GREP_REGEX="[0-9][0-9]:[0-9][0-9] [A-Za-z]"
@@ -88,7 +92,7 @@ function buildPosts() {
         # Define the FOOTER_FILE variable from the global FOOTER_FILE variable value
         FOOTER_FILE=$2
     
-        # Define the TEMP_PATH variable from the global TEMP_PATH variable value
+        # Define the WORK_DIR variable from the global WORK_DIR variable value
         WORK_DIR=$3
 
 	# Define the CURRENT_FILE variable
@@ -100,7 +104,7 @@ function buildPosts() {
         # Use the Markdown library to create the temporary html file
         markdown $FILE > $WORK_DIR$FILE_NAME
     
-        # Build the page with the header file content and the footer file content and write the new HTML file
+        # Build the page with the header.txt content and the footer.txt content and write the new HTML file
         cat $HEADER_FILE $WORK_DIR$FILE_NAME $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
     
         # Delete the initial file with no html extension
@@ -116,23 +120,46 @@ function buildPosts() {
 # Function that will publish the posts to the public web server
 function publishPosts() {
 
+    # Define the ALL_FILES variable with the value of the HTML files that are present in the WORK_DIR directory
+    ALL_FILES=`ls -A $WORK_DIR | grep ".html$"`
+
     # Define the FILES variable with the value of the local files names that are not present on the file server
     FILES=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //'`
-    
+
     # Define the NUMBER variable with the count of files to be uploaded to the webserver
     NUMBER=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //' | wc -l`
 
-    # Determine if there are any files that need to be uploaded to the webserver
-    if [ $NUMBER -ge 1 ]
+    # Deterimine if the force flag was used
+    if [ $1 ]
     then
-	
-	# Upload the files in the FILES variable to the webserver
-	echo "$FILES" | while read LINE ; do (echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $LINE; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST" ; done
-    
+
+	# Determine if any files exist in the $WORK_DIR directory
+	if [ "$(ls -A $WORK_DIR)" ]
+	then
+
+    	# Upload the files in the FILES variable to the webserver
+    	echo "$ALL_FILES" | while read LINE ; do (echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $LINE; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST" ; done
+
+	else
+
+    	    # Echo a message and do nothing if there are no files in the WORK_DIR directory
+    	    echo $NO_FILES_MSG
+	fi
+
     else
 
-	# Echo a message and do nothing if there are no new files
-	echo $NO_FILES_MSG
+	# Determine if there are any new files (that don't already exist in the web server) that need to be uploaded to the web server
+    	if [ $NUMBER -ge 1 ]
+    	then
+    	    
+    	    # Upload the files in the FILES variable to the web server
+    	    echo "$FILES" | while read LINE ; do (echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $LINE; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST" ; done
+    	
+    	else
+
+    	    # Echo a message and do nothing if there are no new files
+    	    echo $NO_FILES_MSG1
+    	fi
     fi
 }
 
@@ -150,4 +177,12 @@ then
 
     # Call the publishPosts function and pass global variables
     publishPosts
+fi
+
+# Execute the publishPosts function without checking for new posts, forcing upload of all files in $WORK_DIR to $BLOG_DIR
+if [ $FORCE_PUB ]
+then
+
+    # Call the publishPosts function and pass global variables
+    publishPosts $FORCE_PUB
 fi
