@@ -52,10 +52,10 @@ EXEC_MSG="Building Posts"
 # Completion message for the buildWebsite function
 COMPLETION_MSG="Posts Built"
 
-# No files to upload message for the publishPosts function
+# No files to upload message for the publishPosts function when the WORK_DIR folder is empty
 NO_FILES_MSG="There are no new posts to publish, the $WORK_DIR directory is empty. Try running blog -b first or blog -bf."
 
-# No files to upload message for the publishPosts function
+# No files to upload message for the publishPosts function when no new posts are found
 NO_FILES_MSG1="There are no new posts to publish, if you want to overwrite posts use the -f flag instead."
 
 # Define the GREP_REGEX variable with the regex to obtain the date from the ls command
@@ -64,13 +64,13 @@ GREP_REGEX="[0-9][0-9]:[0-9][0-9] [A-Za-z]"
 # Define the EXT_REGEX variable with extended grep regex to match post names
 EXT_REGEX=".{0,200}"
 
-# Commands to be executed while connected to the web server over SFTP
+# Command to be executed while connected to the web server over SFTP, to list contents of the BLOG_DIR directory
 REMOTE_LS="ls -l $BLOG_DIR"
 
 # Define the LOCAL_LS variable with the output from the ls command on the local machine
 LOCAL_LS=`ls -l`
 
-# Define the OUTPUT variable with the output from the REMOTE_LS command over the SFTP connection on the webserver
+# Define the OUTPUT variable with the output from the REMOTE_LS variable value over the SFTP connection on the web server
 OUTPUT=`(echo "$REMOTE_LS"; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST"`
 
 # Function that will build the posts
@@ -86,28 +86,28 @@ function buildPosts() {
         # Define the FILE_NAME variable from the FILE variable value, removes the extension
         FILE_NAME=`basename "$FILE" | cut -d "." -f 1`
     
-        # Define the HEADER_FILE variable from the global HEADER_FILE variable value
+        # Define the HEADER_FILE variable in the for loop from the global HEADER_FILE variable value
         HEADER_FILE=$1
     
-        # Define the FOOTER_FILE variable from the global FOOTER_FILE variable value
+        # Define the FOOTER_FILE variable in the for loop from the global FOOTER_FILE variable value
         FOOTER_FILE=$2
     
-        # Define the WORK_DIR variable from the global WORK_DIR variable value
+        # Define the WORK_DIR variable in the for loop from the global WORK_DIR variable value
         WORK_DIR=$3
 
 	# Define the CURRENT_FILE variable
 	CURRENT_FILE="Creating $FILE_NAME"
     	
-        # Echo the name of the file that is being created
+        # Echo the value of the CURRENT_FILE variable value, the current file being created
         echo $CURRENT_FILE
     
-        # Use the Markdown library to create the temporary html file
+        # Use the Markdown library to create the temporary HTML file
         markdown $FILE > $WORK_DIR$FILE_NAME
     
-        # Build the page with the header.txt content and the footer.txt content and write the new HTML file
+        # Build the page with the header and footer file content and concatenate to a new HTML file
         cat $HEADER_FILE $WORK_DIR$FILE_NAME $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
     
-        # Delete the initial file with no html extension
+        # Delete the $FILE_NAME file which has no .html extension
         rm $WORK_DIR$FILE_NAME
     
     # End the for loop
@@ -126,7 +126,7 @@ function publishPosts() {
     # Define the FILES variable with the value of the local files names that are not present on the file server
     FILES=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //'`
 
-    # Define the NUMBER variable with the count of files to be uploaded to the webserver
+    # Define the NUMBER variable with the count of files to be uploaded to the web server
     NUMBER=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //' | wc -l`
 
     # Deterimine if the force flag was used
@@ -137,7 +137,7 @@ function publishPosts() {
 	if [ "$(ls -A $WORK_DIR)" ]
 	then
 
-    	# Upload the files in the FILES variable to the webserver
+    	# Upload the files in the FILES variable to the web server
     	echo "$ALL_FILES" | while read LINE ; do (echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $LINE; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST" ; done
 
 	else
@@ -157,13 +157,13 @@ function publishPosts() {
     	
     	else
 
-    	    # Echo a message and do nothing if there are no new files
+    	    # Echo a message and do nothing if there are no new files in the WORK_DIR directory
     	    echo $NO_FILES_MSG1
     	fi
     fi
 }
 
-# Execute the buildPosts function if the -b flag was specified by the user 
+# Execute the buildPosts function if the -b flag was specified by the user. This option will convert all files from .md to .html by using the markdown command
 if [ $BUILD ]
 then
 
@@ -171,18 +171,18 @@ then
     buildPosts $HEADER_FILE $FOOTER_FILE $WORK_DIR
 fi
 
-# Execute the publishPosts function if the -p flag was specified by the user 
+# Execute the publishPosts function if the -p flag was specified by the user. This is option will only upload files if they are not already found on the web server
 if [ $PUBLISH ]
 then
 
-    # Call the publishPosts function and pass global variables
+    # Call the publishPosts function
     publishPosts
 fi
 
-# Execute the publishPosts function without checking for new posts, forcing upload of all files in $WORK_DIR to $BLOG_DIR
+# Execute the publishPosts function without checking for new posts if the -f flag was specified by the user. This option will force upload of all files in $WORK_DIR to $BLOG_DIR resulting in overwriting of existing files in the web server 
 if [ $FORCE_PUB ]
 then
 
-    # Call the publishPosts function and pass global variables
+    # Call the publishPosts function and pass the FORCE_PUB variable
     publishPosts $FORCE_PUB
 fi
