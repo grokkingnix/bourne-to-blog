@@ -163,7 +163,8 @@ function publishPosts() {
     fi
 }
 
-# Execute the buildPosts function if the -b flag was specified by the user. This option will convert all files from .md to .html by using the markdown command
+# Execute the buildPosts function if the -b flag was specified by the user. 
+# This option will convert all files from .md to .html by using the markdown command
 if [ $BUILD ]
 then
 
@@ -171,7 +172,8 @@ then
     buildPosts $HEADER_FILE $FOOTER_FILE $WORK_DIR
 fi
 
-# Execute the publishPosts function if the -p flag was specified by the user. This is option will only upload files if they are not already found on the web server
+# Execute the publishPosts function if the -p flag was specified by the user. 
+# This is option will only upload files if they are not already found on the web server
 if [ $PUBLISH ]
 then
 
@@ -179,7 +181,8 @@ then
     publishPosts
 fi
 
-# Execute the publishPosts function without checking for new posts if the -f flag was specified by the user. This option will force upload of all files in $WORK_DIR to $BLOG_DIR resulting in overwriting of existing files in the web server 
+# Execute the publishPosts function without checking for new posts if the -f flag was specified by the user. 
+# This option will force upload of all files in $WORK_DIR to $BLOG_DIR resulting in overwriting of existing files in the web server 
 if [ $FORCE_PUB ]
 then
 
