@@ -25,9 +25,9 @@ A third feature is currently being developed
 
 ## How it Works
 
-Bourne to Blog is designed to be installed in a common-access computer (laptop / desktop) with access to a public web server over SFTP (Internet).
+Bourne to Blog is designed to be installed on a common-access computer (laptop / desktop) with access to a public web server over SFTP (Internet).
 
-The expected workflow would be the following:
+The expected workflow is the following:
 
 ![Bourne to Blog Workflow](samples/img/bourne-to-blog-workflow.png "Diagram showing the expected bourne to blog workflow")
 
