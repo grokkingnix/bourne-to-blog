@@ -51,7 +51,7 @@ The expected workflow is the following:
 ### Slackware Installation
 
 1. `su - root` 
-2. `wget https://github.com/grokkingnix/bourne-to-blog/blob/master/blog -P /usr/local/bin/`
+2. `wget https://raw.githubusercontent.com/grokkingnix/bourne-to-blog/master/blog -P /usr/local/bin/`
 3. `chown YOUR_USER:YOUR_USER_GROUP /usr/local/bin/blog` i.e. `chown username:groupname /usr/local/bin/blog`
 4. `chmod +x /usr/local/bin/blog`
 5. `vim /usr/local/bin/blog`
