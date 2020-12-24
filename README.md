@@ -52,7 +52,7 @@ The expected workflow is the following:
 
 In order to keep Bourne to Blog as safe as possible the sftp connection happens using the built in OpenSSH identity_file mechanism that should be available on any system that can invoke the SSH command. This ensures that you don't have your password in clear text on your system.
 
-In case you already have a passwordless public/private SSH key pair you can use that, otherwise you can generate them as follows.
+In case you already have a password-less public / private SSH key pair you can use that, otherwise you can generate them as follows.
 
 Execute the following commands from your terminal:
 
