@@ -48,6 +48,23 @@ The expected workflow is the following:
 4. Enable execution privileges to the `/usr/local/bin/blog` file
 5. Edit the `/usr/local/bin/blog` file variables to fit your environment
 
+### SFTP configuration
+
+In order to keep Bourne to Blog as safe as possible the sftp connection happens using the built in OpenSSH identity_file mechanism that should be available on any system that can invoke the SSH command. This ensures that you don't have your password in clear text on your system.
+
+In case you already have a passwordless public/private SSH key pair you can use that, otherwise you can generate them as follows.
+
+Execute the following commands from your terminal:
+
+    $ cd ~/.ssh
+    $ ssh-keygen -t ed25519
+    
+Press the enter key when prompted for a password to leave the key pair without a password.
+
+Copy the generated public key to your SFTP server:
+
+    $ ssh-copy-id -i ~/.ssh/ed25519.pub ftpuser@ftp.host.com
+
 ### Slackware Installation
 
 1. `su - root` 
