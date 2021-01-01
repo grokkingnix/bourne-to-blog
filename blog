@@ -19,7 +19,7 @@ BLOG_DIR=/blog/path/on/your/webserver
 HEADER_FILE=/path/to/the/header/file.html
 
 # Full path to the footer file
-FOOTER_FILE=/path/to/the/foother/file.html
+FOOTER_FILE=/path/to/the/footer/file.html
 
 # Variables for SFTP connection
 USER=ftpusername
