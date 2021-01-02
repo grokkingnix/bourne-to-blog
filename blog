@@ -24,7 +24,7 @@ FOOTER_FILE=/path/to/the/footer/file.html
 # Variables for SFTP connection
 USER=ftpusername
 HOST=ftp.host.name.com
-IDENTITY_FILE=/home/username/.ssh/identity-file
+IDENTITY_FILE=/home/username/.ssh/identity/file
 
 # The format/extension that the files to process are in
 SOURCE_EXTENSION=*.md
