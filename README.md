@@ -11,7 +11,7 @@
 - [Overall Installation Steps](#overall-installation-steps)
 - [SFTP Configuration](#sftp-configuration)
 - [Slackware Installation](#slackware-installation)
-- [Usage](#usage)
+- [Basic Usage](#basic-usage)
 - [To-do](#to-do)
 - [License](#license)
 
@@ -88,7 +88,7 @@ Copy the generated public key to your SFTP server:
 4. `chmod +x /usr/local/bin/blog`
 5. `vim /usr/local/bin/blog`
 
-## Usage
+## Basic Usage
 
 1. Simply create a text file using the markdown extension `.md` with your favorite text editor, for example:
 
@@ -106,6 +106,30 @@ This is my first blog post using `Bourne to Blog`
 
 Done! You can now visit your public web server address and check your blog post out! 
 
+## Custom Header and Footer
+
+Additionally to the preset header and footer files that you configure, you can also specify the header and footer file on the fly for your posts. This feature can be beneficial when creating different type of posts within your blog, or using Bourne to Blog to build different blogs from the same system.
+
+To specify the header file you can use the `-h` flag with the path to your file as an argument, i.e.:
+
+    $ blog -bh /home/user/header-file
+    
+To specify the footer file you can use the `-f` flag with the path to your file as an argument, i.e.:
+
+    $ blog -bf /home/user/footer-file
+    
+To specify both the header and footer file:
+
+    $ blog -bh /home/user/header-file -f /home/user/footer-file
+    
+## Force Publishing
+
+By default Bourne to Blog does not overwrite the posts that already exist on your public SFTP server when using the `-p` flag. This avoids re-publishing posts and ultimately saves bandwidth.
+
+In case you'd like to force all built posts to be published to your public SFTP server regardless of whether those posts already exist or not, you can use the `-z` option, i.e.:
+
+    $ blog -bz
+    
 ## To-do
 
 1. Add RSS feed feature
