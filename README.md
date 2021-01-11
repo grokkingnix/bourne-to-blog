@@ -97,9 +97,10 @@ Done! You can now visit your public web server address and check your blog post 
 2. Add sample header file
 3. Add sample footer file
 4. Add sample CSS file
-5. Add major Linux distribution installation instructions
-6. Add BSD installation instructions
-7. Add Mac installation instructions
+5. Add option to build / publish a single file
+6. Add major Linux distribution installation instructions
+7. Add BSD installation instructions
+8. Add Mac installation instructions
 
 ## License
 
