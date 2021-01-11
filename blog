@@ -15,10 +15,10 @@ WORK_DIR=/directory/to/store/your/built/blog/posts
 # Blog posts path on the public server
 BLOG_DIR=/blog/path/on/your/webserver
 
-# Full path to the header file
+# Full path to the header file. This value will be overwritten if the -h flag is provided
 HEADER_FILE=/path/to/the/header/file.html
 
-# Full path to the footer file
+# Full path to the footer file. This value will be overwritten if the -f flag is provided
 FOOTER_FILE=/path/to/the/footer/file.html
 
 # Variables for SFTP connection
@@ -37,12 +37,14 @@ SOURCE_EXTENSION=*.md
 # If you edit anything below this point, you may break the script!
 
 # Define the flags the user can pass to the script
-while getopts bpf flag
+while getopts bpzh:f: flag
 do
     case "${flag}" in
 	b) BUILD=true;;
 	p) PUBLISH=true;;
-	f) FORCE_PUB=true;;
+	z) FORCE_PUB=true;;
+	h) HEADER_FILE=${OPTARG};;
+	f) FOOTER_FILE=${OPTARG};;
 esac
 done
 
@@ -178,7 +180,7 @@ then
     publishPosts
 fi
 
-# Execute the publishPosts function without checking for new posts if the -f flag was specified by the user. 
+# Execute the publishPosts function without checking for new posts if the -z flag was specified by the user. 
 # This option will force upload of all files in $WORK_DIR to $BLOG_DIR resulting in overwriting of existing files in the web server 
 if [ $FORCE_PUB ]
 then
