@@ -98,9 +98,10 @@ Done! You can now visit your public web server address and check your blog post 
 3. Add sample footer file
 4. Add sample CSS file
 5. Add option to build / publish a single file
-6. Add major Linux distribution installation instructions
-7. Add BSD installation instructions
-8. Add Mac installation instructions
+6. Add CSS `id` selector to all `<h2>` HTML tags
+7. Add major Linux distribution installation instructions
+8. Add BSD installation instructions
+9. Add Mac installation instructions
 
 ## License
 
