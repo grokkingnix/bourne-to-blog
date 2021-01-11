@@ -12,6 +12,8 @@
 - [SFTP Configuration](#sftp-configuration)
 - [Slackware Installation](#slackware-installation)
 - [Basic Usage](#basic-usage)
+- [Custom Header and Footer](#custom-header-and-footer)
+- [Force Publishing](#force-publishing)
 - [To-do](#to-do)
 - [License](#license)
 
