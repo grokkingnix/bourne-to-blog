@@ -1,5 +1,19 @@
 # Bourne to Blog 
 
+### Table of contents
+[About](#about)
+[Demo](#demo)
+[Features](#features)
+[How it works](#how-it-works)
+[Requirements](#requirements)
+[Installation](#installation)
+[Overall Installation Steps](#overall-installation-steps)
+[SFTP Configuration](#sftp-configuration)
+[Slackware Installation](#slackware-installation)
+[Usage](#usage)
+[To-do](#to-do)
+[License](#license)
+
 ## About
 
 Bourne to Blog is a bash script to create blog posts from `.md` files in a simple manner.
