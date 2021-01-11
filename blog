@@ -15,10 +15,10 @@ WORK_DIR=/directory/to/store/your/built/blog/posts
 # Blog posts path on the public server
 BLOG_DIR=/blog/path/on/your/webserver
 
-# Full path to the header file. This value will be overwritten if the -h flag is provided
+# Full path to the header file. This value will be ignored if the -h flag is provided
 HEADER_FILE=/path/to/the/header/file.html
 
-# Full path to the footer file. This value will be overwritten if the -f flag is provided
+# Full path to the footer file. This value will be ignored if the -f flag is provided
 FOOTER_FILE=/path/to/the/footer/file.html
 
 # Variables for SFTP connection
