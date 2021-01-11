@@ -94,8 +94,8 @@ Done! You can now visit your public web server address and check your blog post 
 ## To-do
 
 1. Add RSS feed feature
-2. Add sample header file
-3. Add sample footer file
+2. ~~Add sample header file~~
+3. ~~Add sample footer file~~
 4. Add sample CSS file
 5. Add option to build / publish a single file
 6. ~~Add option to specify header and footer files to build posts with~~
