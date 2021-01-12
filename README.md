@@ -137,7 +137,7 @@ In case you'd like to force all built posts to be published to your public SFTP 
 1. Add RSS feed feature
 2. ~~Add sample header file~~
 3. ~~Add sample footer file~~
-4. Add sample CSS file
+4. ~~Add sample CSS file~~
 5. Add option to build / publish a single file
 6. ~~Add option to specify header and footer files to build posts with~~
 7. Add CSS `id` selector to all `<h2>` HTML tags
