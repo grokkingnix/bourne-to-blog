@@ -36,8 +36,31 @@ SOURCE_EXTENSION=*.md
 ############
 # If you edit anything below this point, you may break the script!
 
+# Usage message that explains command flags
+USAGE="Usage: The blog command takes the following options:
+    -b	Build posts from all $SOURCE_EXTENSION files
+    -p	Publish all posts built by the -b flag. Does not overwrite duplicate files in remote SFTP server
+    -z	Force publishing of all built posts. Overwrites duplicate files in remote SFTP server
+    -h	Define a custom header file. i.e. blog -bh /home/user/header-file
+    -f	Define a custom footer file. i.e. blog -bf /home/user/footer-file"
+
+# Message when an flag does not have an argument and it should
+ARG_ERR_MSG="An option you provided requires an argument, see below.
+    "
+
+# Function that will display the expected usage
+function blogUsage() {
+    echo "$USAGE"
+}
+
+# Function that will display command usage and exit
+function exitBlog() {
+    blogUsage
+    exit 1
+}
+
 # Define the flags the user can pass to the script
-while getopts bpzh:f: flag
+while getopts :bpzh:f: flag
 do
     case "${flag}" in
 	b) BUILD=true;;
@@ -45,6 +68,9 @@ do
 	z) FORCE_PUB=true;;
 	h) HEADER_FILE=${OPTARG};;
 	f) FOOTER_FILE=${OPTARG};;
+	:) echo "$ARG_ERR_MSG"
+	    exitBlog;;
+	*) exitBlog;
 esac
 done
 
