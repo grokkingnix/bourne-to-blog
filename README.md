@@ -9,6 +9,7 @@
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Overall Installation Steps](#overall-installation-steps)
+- [Sample Files](#sample-files)
 - [SFTP Configuration](#sftp-configuration)
 - [Slackware Installation](#slackware-installation)
 - [Basic Usage](#basic-usage)
@@ -64,6 +65,10 @@ The expected workflow is the following:
 3. Make your local user the owner of the `/usr/local/bin/blog` file
 4. Enable execution privileges to the `/usr/local/bin/blog` file
 5. Edit the `/usr/local/bin/blog` file variables to fit your environment
+
+### Sample Files
+
+Along with the core script I have also provided some sample files (header, footer and CSS). You can find these in the `samples` folder in the repository, these provide the basics that you'll need to get started with building your blog with Bourne to Blog.
 
 ### SFTP configuration
 
