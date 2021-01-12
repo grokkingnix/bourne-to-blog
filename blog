@@ -44,7 +44,7 @@ USAGE="Usage: The blog command takes the following options:
     -h	Define a custom header file. i.e. blog -bh /home/user/header-file
     -f	Define a custom footer file. i.e. blog -bf /home/user/footer-file"
 
-# Message when an flag does not have an argument and it should
+# Message when a flag does not have an argument and it should
 ARG_ERR_MSG="An option you provided requires an argument, see below.
     "
 
