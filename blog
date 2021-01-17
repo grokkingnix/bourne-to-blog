@@ -44,7 +44,7 @@ USAGE="Usage: The blog command takes the following options:
     -h	Define a custom header file. i.e. blog -bh /home/user/header-file
     -f	Define a custom footer file. i.e. blog -bf /home/user/footer-file"
 
-# Message when a flag does not have an argument and it should
+# Message when an flag does not have an argument and it should
 ARG_ERR_MSG="An option you provided requires an argument, see below.
     "
 
@@ -131,7 +131,20 @@ function buildPosts() {
     
         # Build the page with the header and footer file content and concatenate to a new HTML file
         cat $HEADER_FILE $WORK_DIR$FILE_NAME $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
-    
+
+	# Add HTML id attributes to h2-h4 header tags in the newly created HTML file
+	sed -i 's/<h\([2-4]\)>\(.*\)<\/h[2-4]>/<h\1 id="\L\2">\E\2<\/h\1>/' $WORK_DIR$FILE_NAME.html
+
+	# This 3 part section will add hyphens to the id attributes added
+	# Separated the id attributes from the header content in two separate lines
+	sed -i '/^<h[2-4] id=".*">/ s/>/>\n/' $WORK_DIR$FILE_NAME.html
+
+	# Add hyphens to the line with the HTML id attribute
+	sed -i '/^<h[2-4] id=".*">/ s/ /-/2g' $WORK_DIR$FILE_NAME.html
+
+	# Append the separated lines to eachother leaving a single line
+	sed -i '/^<h[2-4] id=".*">/ N; s/\n//' $WORK_DIR$FILE_NAME.html
+
         # Delete the $FILE_NAME file which has no .html extension
         rm $WORK_DIR$FILE_NAME
     
