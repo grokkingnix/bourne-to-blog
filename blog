@@ -38,7 +38,8 @@ SOURCE_EXTENSION=*.md
 
 # Usage message that explains command flags
 USAGE="Usage: The blog command takes the following options:
-    -b	Build posts from all $SOURCE_EXTENSION files
+    -b	Build posts from all $SOURCE_EXTENSION files in the WORK_DIR directory
+    -s  Build a single post. This flag expects a $SOURCE_EXTENSION file name, the file should be in the WORK_DIR directory
     -p	Publish all posts built by the -b flag. Does not overwrite duplicate files in remote SFTP server
     -z	Force publishing of all built posts. Overwrites duplicate files in remote SFTP server
     -h	Define a custom header file. i.e. blog -bh /home/user/header-file
