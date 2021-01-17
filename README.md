@@ -143,12 +143,13 @@ In case you'd like to force all built posts to be published to your public SFTP 
 2. ~~Add sample header file~~
 3. ~~Add sample footer file~~
 4. ~~Add sample CSS file~~
-5. Add option to build / publish a single article
-6. ~~Add option to specify header and footer files to build posts with~~
-7. ~~Add CSS `id` attribute to all `h2-h4` HTML tags~~
-8. Add major Linux distribution installation instructions
-9. Add BSD installation instructions
-10. Add Mac installation instructions
+5. ~~Add option to build a single article~~
+6. Add option to publish a single article
+7. ~~Add option to specify header and footer files to build posts with~~
+8. ~~Add CSS `id` attribute o all `h2-h4` HTML tags~~
+9. Add major Linux distribution installation instructions
+10. Add BSD installation instructions
+11. Add Mac installation instructions
 
 ## License
 
