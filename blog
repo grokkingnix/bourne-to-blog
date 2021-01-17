@@ -59,8 +59,11 @@ function exitBlog() {
     exit 1
 }
 
+# Define the SINGLE_POST variable with the default value of empty.
+SINGLE_POST=""
+
 # Define the flags the user can pass to the script
-while getopts :bpzh:f: flag
+while getopts :bpzh:f:s: flag
 do
     case "${flag}" in
 	b) BUILD=true;;
@@ -68,17 +71,24 @@ do
 	z) FORCE_PUB=true;;
 	h) HEADER_FILE=${OPTARG};;
 	f) FOOTER_FILE=${OPTARG};;
+	s) SINGLE_POST=${OPTARG};;
 	:) echo "$ARG_ERR_MSG"
 	    exitBlog;;
 	*) exitBlog;
 esac
 done
 
-# Execution message for the buildWebsite function
+# Execution message for multiple posts in the buildPosts function
 EXEC_MSG="Building Posts"
 
-# Completion message for the buildWebsite function
+# Execution message for single post in the buildPosts function
+EXEC_MSG1="Building a single post"
+
+# Completion message for multiple posts in the buildPosts function
 COMPLETION_MSG="Posts Built"
+
+# Completion message for single post in the buildPosts function
+COMPLETION_MSG1="Post Built"
 
 # No files to upload message for the publishPosts function when the WORK_DIR folder is empty
 NO_FILES_MSG="There are no new posts to publish, the $WORK_DIR directory is empty. Try running blog -b first or blog -bf."
@@ -101,58 +111,101 @@ OUTPUT=`(echo "$REMOTE_LS"; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"
 # Function that will build the posts
 function buildPosts() {
 
-    # Message when starting the function
-    echo $EXEC_MSG
+    # Determine if the SINGLE_POST variable is empty 
+    if [ -z $SINGLE_POST ]
 
-    # For loop that goes over all files with the .md extension in the specified directory
-    for FILE in $SOURCE_DIR$SOURCE_EXTENSION
-    do
-        # Define for loop variables
-        # Define the FILE_NAME variable from the FILE variable value, removes the extension
-        FILE_NAME=`basename "$FILE" | cut -d "." -f 1`
-    
-        # Define the HEADER_FILE variable in the for loop from the global HEADER_FILE variable value
-        HEADER_FILE=$1
-    
-        # Define the FOOTER_FILE variable in the for loop from the global FOOTER_FILE variable value
-        FOOTER_FILE=$2
-    
-        # Define the WORK_DIR variable in the for loop from the global WORK_DIR variable value
-        WORK_DIR=$3
+    #If the SINGLE_POST variables is empty then the -s flag was not passed in. Build all posts inside the WORK_DIR
+    then
+	# Message when starting the build process for multiple posts
+    	echo $EXEC_MSG
 
-	# Define the CURRENT_FILE variable
-	CURRENT_FILE="Creating $FILE_NAME"
+    	# For loop that goes over all files with the .md extension in the specified directory
+    	for FILE in $SOURCE_DIR$SOURCE_EXTENSION
+    	do
+    	    # Define for loop variables
+    	    # Define the FILE_NAME variable from the FILE variable value, removes the extension
+    	    FILE_NAME=`basename "$FILE" | cut -d "." -f 1`
     	
-        # Echo the value of the CURRENT_FILE variable value, the current file being created
-        echo $CURRENT_FILE
-    
-        # Use the Markdown library to create the temporary HTML file
-        markdown $FILE > $WORK_DIR$FILE_NAME
-    
-        # Build the page with the header and footer file content by contactenating to a new HTML file
-        cat $HEADER_FILE $WORK_DIR$FILE_NAME $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
+    	    # Define the HEADER_FILE variable in the for loop from the global HEADER_FILE variable value
+    	    HEADER_FILE=$1
+    	
+    	    # Define the FOOTER_FILE variable in the for loop from the global FOOTER_FILE variable value
+    	    FOOTER_FILE=$2
+    	
+    	    # Define the WORK_DIR variable in the for loop from the global WORK_DIR variable value
+    	    WORK_DIR=$3
 
-	# Add HTML id attributes to h2-h4 header tags in the newly created HTML file
-	sed -i 's/<h\([2-4]\)>\(.*\)<\/h[2-4]>/<h\1 id="\L\2">\E\2<\/h\1>/' $WORK_DIR$FILE_NAME.html
+    	    # Define the CURRENT_FILE variable
+    	    CURRENT_FILE="Creating $FILE_NAME"
+    		
+    	    # Echo the value of the CURRENT_FILE variable value, the current post being created
+    	    echo $CURRENT_FILE
+    	
+    	    # Use the Markdown library to create the temporary HTML file
+    	    markdown $FILE > $WORK_DIR$FILE_NAME
+    	
+    	    # Build the page with the header and footer file content by contactenating to a new HTML file
+    	    cat $HEADER_FILE $WORK_DIR$FILE_NAME $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
 
-	# This 3 part section will add hyphens to the id attributes added
-	# Separated the id attributes from the header content in two separate lines
-	sed -i '/^<h[2-4] id=".*">/ s/>/>\n/' $WORK_DIR$FILE_NAME.html
+    	    # Add HTML id attributes to h2-h4 header tags in the newly created HTML file
+    	    sed -i 's/<h\([2-4]\)>\(.*\)<\/h[2-4]>/<h\1 id="\L\2">\E\2<\/h\1>/' $WORK_DIR$FILE_NAME.html
 
-	# Add hyphens to the line with the HTML id attribute
-	sed -i '/^<h[2-4] id=".*">/ s/ /-/2g' $WORK_DIR$FILE_NAME.html
+    	    # This 3 part section will add hyphens to the id attributes added
+    	    # Separated the id attributes from the header content in two separate lines
+    	    sed -i '/^<h[2-4] id=".*">/ s/>/>\n/' $WORK_DIR$FILE_NAME.html
 
-	# Append the separated lines to eachother leaving a single line
-	sed -i '/^<h[2-4] id=".*">/ N; s/\n//' $WORK_DIR$FILE_NAME.html
+    	    # Add hyphens to the line with the HTML id attribute
+    	    sed -i '/^<h[2-4] id=".*">/ s/ /-/2g' $WORK_DIR$FILE_NAME.html
 
-        # Delete the $FILE_NAME file which has no .html extension
-        rm $WORK_DIR$FILE_NAME
-    
-    # End the for loop
-    done
+    	    # Append the separated lines to eachother leaving a single line
+    	    sed -i '/^<h[2-4] id=".*">/ N; s/\n//' $WORK_DIR$FILE_NAME.html
 
-    # Echo a completion message
-    echo $COMPLETION_MSG 
+    	    # Delete the $FILE_NAME file which has no .html extension
+    	    rm $WORK_DIR$FILE_NAME
+    	
+    	# End the for loop
+    	done
+
+    	# Echo a completion message
+    	echo $COMPLETION_MSG 
+
+    # If the SINGLE_POST variable is not empty then the -s flag was passed in. Build only the SINGLE_POST
+    else
+
+	# Echo a message when starting the build process for single posts
+    	echo $EXEC_MSG1
+
+    	# Define the FILE_NAME variable from the SINGLE_POST variable value, removes the extension
+    	FILE_NAME=`basename "$SINGLE_POST" | cut -d "." -f 1`
+
+    	# Echo the value of the SINGLE_POST variable value, the current post being created
+    	echo $SINGLE_POST
+    	
+    	# Use the Markdown library to create the temporary HTML file
+    	markdown $SINGLE_POST > $WORK_DIR$FILE_NAME
+    	
+    	# Build the page with the header and footer file content by contactenating to a new HTML file
+    	cat $HEADER_FILE $WORK_DIR$FILE_NAME $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
+
+    	# Add HTML id attributes to h2-h4 header tags in the newly created HTML file
+    	sed -i 's/<h\([2-4]\)>\(.*\)<\/h[2-4]>/<h\1 id="\L\2">\E\2<\/h\1>/' $WORK_DIR$FILE_NAME.html
+
+    	# This 3 part section will add hyphens to the id attributes added
+    	# Separated the id attributes from the header content in two separate lines
+    	sed -i '/^<h[2-4] id=".*">/ s/>/>\n/' $WORK_DIR$FILE_NAME.html
+
+    	# Add hyphens to the line with the HTML id attribute
+    	sed -i '/^<h[2-4] id=".*">/ s/ /-/2g' $WORK_DIR$FILE_NAME.html
+
+    	# Append the separated lines to eachother leaving a single line
+    	sed -i '/^<h[2-4] id=".*">/ N; s/\n//' $WORK_DIR$FILE_NAME.html
+
+    	# Delete the $FILE_NAME file which has no .html extension
+    	rm $WORK_DIR$FILE_NAME
+
+    	# Echo a message when single post building has completed
+    	echo $COMPLETION_MSG1
+    fi
 }
 
 # Function that will publish the posts to the public web server
