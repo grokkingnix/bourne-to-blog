@@ -129,7 +129,7 @@ function buildPosts() {
         # Use the Markdown library to create the temporary HTML file
         markdown $FILE > $WORK_DIR$FILE_NAME
     
-        # Build the page with the header and footer file content and concatenate to a new HTML file
+        # Build the page with the header and footer file content by contactenating to a new HTML file
         cat $HEADER_FILE $WORK_DIR$FILE_NAME $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
 
 	# Add HTML id attributes to h2-h4 header tags in the newly created HTML file
