@@ -136,6 +136,12 @@ By default Bourne to Blog does not overwrite the posts that already exist on you
 In case you'd like to force all built posts to be published to your public SFTP server regardless of whether those posts already exist or not, you can use the `-z` option, i.e.:
 
     $ blog -bz
+
+## Build & Publish Single Post
+
+By default when you build and publish posts Bourne to Blog will do this in batches. So if you have several articles you can simply run `blog -bp` and this will build all the posts and then publish all of them with this single command (This will not overwrite any of the posts that already exist in the SFTP server). 
+
+Alternatively you can build and publish a single post by using the `-s` flag, for example: `blog -bps file.md` this will only perform the building and publishing functions on the specified file.
     
 ## To-do
 
@@ -144,12 +150,10 @@ In case you'd like to force all built posts to be published to your public SFTP 
 3. ~~Add sample footer file~~
 4. ~~Add sample CSS file~~
 5. ~~Add option to build a single article~~
-6. Add option to publish a single article
+6. ~~Add option to publish a single article~~
 7. ~~Add option to specify header and footer files to build posts with~~
 8. ~~Add CSS `id` attribute o all `h2-h4` HTML tags~~
 9. Add major Linux distribution installation instructions
-10. Add BSD installation instructions
-11. Add Mac installation instructions
 
 ## License
 
