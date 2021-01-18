@@ -15,7 +15,7 @@
 - [Basic Usage](#basic-usage)
 - [Custom Header and Footer](#custom-header-and-footer)
 - [Force Publishing](#force-publishing)
-- [Build & Publish Single Post](#build-&-publish-single-post)
+- [Build and Publish Single Post](#build-and-publish-single-post)
 - [To-do](#to-do)
 - [License](#license)
 
@@ -140,7 +140,7 @@ In case you'd like to force all built posts to be published to your public SFTP 
 
     $ blog -bz
 
-## Build & Publish Single Post
+## Build and Publish Single Post
 
 By default when you build and publish posts Bourne to Blog will do this in batches. So if you have several articles you can simply run `blog -bp` and this will build all the posts and then publish all of them with this single command (This will not overwrite any of the posts that already exist in the SFTP server). 
 
