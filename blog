@@ -39,11 +39,14 @@ SOURCE_EXTENSION=*.md
 # Usage message that explains command flags
 USAGE="Usage: The blog command takes the following options:
     -b	Build posts from all $SOURCE_EXTENSION files in the WORK_DIR directory
-    -s  Build a single post. This flag expects a $SOURCE_EXTENSION file name, the file should be in the WORK_DIR directory
-    -p	Publish all posts built by the -b flag. Does not overwrite duplicate files in remote SFTP server
-    -z	Force publishing of all built posts. Overwrites duplicate files in remote SFTP server
-    -h	Define a custom header file. i.e. blog -bh /home/user/header-file
-    -f	Define a custom footer file. i.e. blog -bf /home/user/footer-file"
+    -s  Build / Publish a single post. This flag expects a $SOURCE_EXTENSION file name, the file should be in the WORK_DIR directory
+	This will build a single file i.e. blog -bs filename.md
+	This will publish a single file i.e. blog -ps filename.md
+	This will build and publish a single file i.e. blog -bps filename.md
+    -p	Publish all built posts in the WORK_DIR directory. Does not overwrite duplicate files in remote SFTP server
+    -z	Force publishing of all built posts in the WORK_DIR directory. Overwrites duplicate files in remote SFTP server
+    -h	Define a custom header file for building. i.e. blog -bh /home/user/header-file
+    -f	Define a custom footer file for building. i.e. blog -bf /home/user/footer-file"
 
 # Message when an flag does not have an argument and it should
 ARG_ERR_MSG="An option you provided requires an argument, see below.
@@ -212,46 +215,61 @@ function buildPosts() {
 # Function that will publish the posts to the public web server
 function publishPosts() {
 
-    # Define the ALL_FILES variable with the value of the HTML files that are present in the WORK_DIR directory
-    ALL_FILES=`ls -A $WORK_DIR | grep ".html$"`
+    # Determine if the SINGLE_POST variable is empty 
+    if [ -z $SINGLE_POST ]
 
-    # Define the FILES variable with the value of the local files names that are not present on the file server
-    FILES=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //'`
-
-    # Define the NUMBER variable with the count of files to be uploaded to the web server
-    NUMBER=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //' | wc -l`
-
-    # Deterimine if the force flag was used
-    if [ $1 ]
+    #If the SINGLE_POST variables is empty then the -s flag was not passed in, publish multiple posts.
     then
 
-	# Determine if any files exist in the $WORK_DIR directory
-	if [ "$(ls -A $WORK_DIR)" ]
-	then
+	# Define the ALL_FILES variable with the value of the HTML files that are present in the WORK_DIR directory
+    	ALL_FILES=`ls -A $WORK_DIR | grep ".html$"`
 
-    	# Upload the files in the FILES variable to the web server
-    	echo "$ALL_FILES" | while read LINE ; do (echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $LINE; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST" ; done
+    	# Define the FILES variable with the value of the local files names that are not present on the file server
+    	FILES=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //'`
 
-	else
+    	# Define the NUMBER variable with the count of files to be uploaded to the web server
+    	NUMBER=`diff <(ls $WORK_DIR | sort -f) <(grep -oE " $GREP_REGEX$EXT_REGEX" <<< "$OUTPUT" | cut -d " " -f 3 | sort -f) | grep -E "^[<].*html$" | sed 's/< //' | wc -l`
 
-    	    # Echo a message and do nothing if there are no files in the WORK_DIR directory
-    	    echo $NO_FILES_MSG
-	fi
-
-    else
-
-	# Determine if there are any new files (that don't already exist in the web server) that need to be uploaded to the web server
-    	if [ $NUMBER -ge 1 ]
+    	# Deterimine if the force flag was used
+    	if [ $1 ]
     	then
-    	    
-    	    # Upload the files in the FILES variable to the web server
-    	    echo "$FILES" | while read LINE ; do (echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $LINE; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST" ; done
-    	
+
+    	    # Determine if any files exist in the $WORK_DIR directory
+    	    if [ "$(ls -A $WORK_DIR)" ]
+    	    then
+
+    		# Upload the files in the FILES variable to the web server
+    		echo "$ALL_FILES" | while read LINE ; do (echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $LINE; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST" ; done
+
+    	    else
+
+    		    # Echo a message and do nothing if there are no files in the WORK_DIR directory
+    		    echo $NO_FILES_MSG
+    	    fi
+
     	else
 
-    	    # Echo a message and do nothing if there are no new files in the WORK_DIR directory
-    	    echo $NO_FILES_MSG1
+    	    # Determine if there are any new files (that don't already exist in the web server) that need to be uploaded to the web server
+    		if [ $NUMBER -ge 1 ]
+    		then
+    		    
+    		    # Upload the files in the FILES variable to the web server
+    		    echo "$FILES" | while read LINE ; do (echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $LINE; echo quit) | sftp -b - -i "$IDENTITY_FILE" "$USER"@"$HOST" ; done
+    		
+    		else
+
+    		    # Echo a message and do nothing if there are no new files in the WORK_DIR directory
+    		    echo $NO_FILES_MSG1
+    		fi
     	fi
+    # If the SINGLE_POST variable is not empty then the -s flag was passed in. Publish only the SINGLE_POST
+    else
+
+    	# Define the FILE_NAME variable from the SINGLE_POST variable value, removes the extension
+    	FILE_NAME=`basename "$SINGLE_POST" | cut -d "." -f 1`
+
+	# Upload the SINGLE_POST file to the web server forcefully (Will overwrite if file exists)
+	(echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $FILE_NAME.html; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
     fi
 }
 
