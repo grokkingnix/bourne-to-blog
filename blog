@@ -67,7 +67,7 @@ function exitBlog() {
 SINGLE_POST=""
 
 # Define the flags the user can pass to the script
-while getopts :bpzh:f:s: flag
+while getopts :bpzHh:f:s: flag
 do
     case "${flag}" in
 	b) BUILD=true;;
@@ -76,9 +76,10 @@ do
 	h) HEADER_FILE=${OPTARG};;
 	f) FOOTER_FILE=${OPTARG};;
 	s) SINGLE_POST=${OPTARG};;
+	H) exitBlog;;
 	:) echo "$ARG_ERR_MSG"
 	    exitBlog;;
-	*) exitBlog;
+	*) exitBlog;;
 esac
 done
 

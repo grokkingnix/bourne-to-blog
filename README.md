@@ -113,6 +113,8 @@ This is my first blog post using `Bourne to Blog`
 
 Done! You can now visit your public web server address and check your blog post out! 
 
+In case you have any doubts about what the different options do, you can run `blog -H` to get some help.
+
 ## Custom Header and Footer
 
 Additionally to the preset header and footer files that you configure, you can also specify the header and footer file on the fly for your posts. This feature can be beneficial when creating different type of posts within your blog, or using Bourne to Blog to build different blogs from the same system.
