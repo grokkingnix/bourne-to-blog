@@ -71,9 +71,9 @@ The expected workflow is the following:
 
 Along with the core script I have also provided some sample files (header, footer and CSS). You can find these in the `samples` folder in the repository, these provide the basics that you'll need to get started with building your blog with Bourne to Blog.
 
-### SFTP configuration
+### SFTP Configuration
 
-In order to keep Bourne to Blog as safe as possible the sftp connection happens using the built in OpenSSH identity_file mechanism that should be available on any system that can invoke the SSH command. This ensures that you don't have your password in clear text on your system.
+In order to keep Bourne to Blog as safe as possible the sftp connection uses the built in OpenSSH identity_file mechanism that should be available on any system that can invoke the SSH command. This ensures that you don't use a clear text password while using Bourne to Blog.
 
 In case you already have a password-less public / private SSH key pair you can use that, otherwise you can generate them as follows.
 
