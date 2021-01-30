@@ -1,0 +1,215 @@
+/*===========================================
+========    GLOBAL FORMATTING   ==========
+===========================================*/
+* {
+    box-sizing:    border-box
+}
+:root {
+    --sans:    1em/1.6 system-ui, "Signika Negative Regular", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Droid Sans, Helvetica Neue, Fira Sans, sans-serif;
+    --mono:    'Courier New', Courier, 'Ubuntu Mono', 'Liberation Mono', monospace;
+    --main-font-color:   #676767;
+    --heading-color:   #333;
+    --menu-bar-color:   #F6F6F6;
+    --pre-back-color:   #f5f7f9;
+    --pre-font-color:   #4c4c4c;
+    --pre-left-border-color:  #69c;
+    --pre-top-bottom-border-color: #d8dee9;
+    --code-font-color:   #518DAA;
+    --link-color:   #6262ff;
+    --link-hover-color:   #00b200;
+    --dark-color:   #444;
+    --black-color:   #000;
+    --light-gray-color:   #eee;
+    --white-color:   #fff;
+    --h5-color:    #a7a7a7;
+    --aside-color: #F6F6F6;
+    --table-header-color:   #f5f7f9;
+    --rc:    8px;
+}
+html {
+    -ms-text-size-adjust:  100%;
+    -webkit-text-size-adjust:  100%;
+}
+
+/*===========================================
+==========   GENERAL FORMATTING   ==========
+===========================================*/
+body {
+    margin:    0;
+    font:    var(--sans);
+    font-weight:   400;
+    font-style:    normal;
+    text-rendering:   optimizeLegibility;
+    -webkit-font-smoothing:  antialiased;
+    background-color:   var(--white-color);
+    color:    var(--main-font-color);
+}
+/*===========================================
+=============    GRID LAYOUT  ============
+===========================================*/
+body {
+    display:    grid;
+    grid-template-columns:  1fr 70% 15% 1fr;
+}
+nav {
+    grid-column:   1;
+    grid-row:    1 / 5;
+    display:    grid;
+    grid-template-rows: repeat(7, auto) 1fr;
+}
+main {
+    grid-column:   2;
+}
+aside {
+    grid-column:   3;
+}
+footer {
+    grid-column:   2 / 4;
+    grid-row:    3;
+}
+
+
+/*===========================================
+========    SPECIFIC FORMATTING   ==========
+===========================================*/
+/* Indented Titles */
+.indent1 {
+    margin-left:		20px;
+}
+.indent2 {
+    margin-left:		40px;
+}
+/* Main Section */
+main {
+    margin-left:		1.5em;
+}
+/* Aside Section */
+aside {
+    margin-top:			1rem;
+}
+aside section {
+    background-color:		var(--menu-bar-color);
+    border:			1px solid #a2a9b1;
+    padding:			.5rem;
+}
+/* Footer Section */
+footer {
+    margin-left:    1em;
+}
+/* Navigation Bar */
+nav img {
+    width:		    40%;
+    margin-left:	    25%;
+    margin-bottom:	    1rem;
+}
+nav {
+    background-color:    var(--menu-bar-color);
+    justify-items:   start;
+    padding-left:     1em;
+    padding-top:     1em;
+    font-weight:   bold;
+}
+nav h4 {
+    margin-bottom: 0;
+}
+/* Lists */
+ol li {
+    font-size:     1.2em;
+    line-height:   1.4;
+}
+/* Rounded Corners*/
+pre,code,img {
+    border-radius:   var(--rc);
+}
+
+/* Links */
+a {
+    color:    var(--link-color);
+    text-decoration:   none;
+}
+a:hover {
+    text-decoration:   underline;
+}
+
+/* Headers */
+h1,h2,h3 {
+    color:    var(--heading-color);
+}
+h2,h3 {
+    margin-top: 2rem;
+}
+h1 {
+    margin-top:    .5em;
+    margin-bottom:   0;
+}
+h5 {
+    margin:    0;
+    padding-top:   .5em;
+    color:    var(--h5-color);
+}
+
+/* Code */
+code,pre {
+    line-height:   1.2em;
+}
+pre {
+    margin-bottom:   3em;
+    background:        var(--pre-back-color);
+    color:        var(--pre-font-color);
+    padding:        1em;
+    border-left:       2px solid var(--pre-left-border-color);
+    border-bottom:       1px solid var(--pre-top-bottom-border-color);
+    border-top:    1px solid var(--pre-top-bottom-border-color);
+    overflow-x:    auto;
+}
+code {
+    background:        var(--light-gray-color);
+    color:        var(--code-font-color);
+    font-size:     1rem;
+    padding:    0 .25rem;
+}
+pre code {
+    background:        var(--pre-back-color);
+    color:        var(--pre-font-color);
+    padding:    0 0;
+}
+
+/* Paragraphs */
+p {
+    font-size:     1.2rem;
+}
+
+/* Images */
+img {
+    display:    block;
+    max-width:    100%;
+}
+p img {
+    margin-right:    auto;
+    margin-left:   auto;
+    margin-bottom:   3em;
+}
+/* Tables */
+table {
+    border-collapse: collapse; 
+    border-spacing: 0; 
+    margin:1em 0;
+}
+th, td {
+    text-align: left; 
+    vertical-align: top; 
+    border: 1px solid; 
+    padding: 0.4em;
+}
+thead,tfoot {
+    background: var(--c2);
+}
+
+/*===========================================
+=============   MEDIA  QUERIES  ============
+===========================================*/
+/* Tablet Sized Screens */
+/* Grid Layout */
+
+/* Mobile Sized Screens */
+/* Grid Layout */

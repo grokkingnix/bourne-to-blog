@@ -16,6 +16,7 @@
 - [Custom Header and Footer](#custom-header-and-footer)
 - [Force Publishing](#force-publishing)
 - [Build and Publish Single Post](#build-and-publish-single-post)
+- [Create a Wiki](#create-a-wiki)
 - [To-do](#to-do)
 - [License](#license)
 
@@ -88,7 +89,7 @@ Copy the generated public key to your SFTP server:
 
     $ ssh-copy-id -i ~/.ssh/ed25519.pub ftpuser@ftp.host.com
 
-### Linux / OSX Installation
+### Linux / OS X Installation
 
 1. Install the [discount](https://github.com/nueh/discount) library with your system's preferred method
 2. Ensure that you have `/usr/local/bin/` in your `$PATH` i.e. `$ echo $PATH`
@@ -147,6 +148,10 @@ In case you'd like to force all built posts to be published to your public SFTP 
 By default when you build and publish posts Bourne to Blog will do this in batches. So if you have several articles you can simply run `blog -bp` and this will build all the posts and then publish all of them with this single command (This will not overwrite any of the posts that already exist in the SFTP server). 
 
 Alternatively you can build and publish a single post by using the `-s` flag, for example: `blog -bps file.md` this will only perform the building and publishing functions on the specified file.
+
+## Create a Wiki
+
+You can create your very own Wiki with Bourne to Blog, take a look at the `samples` folder for the files that can help you. You can see a detailed step by step guide [here](https://nixing.mx/blog/creating-a-wiki-with-bourne-to-blog.html)
     
 ## To-do
 

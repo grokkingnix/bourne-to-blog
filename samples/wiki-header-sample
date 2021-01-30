@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="/css/wiki-style.css">
+        <link rel="icon" href="/favicon.ico">
+        <title>My Wiki</title/>
+    </head>
+    <body>
+        <header>
+        </header>
+        <nav>
+	    <img src="/img/image.png">
+            <a href="/index.html">Wiki Index</a>
+            <a href="/category1.html">Category 1</a>
+            <a class="indent1" href="/sub-category1.html">Sub-category 1</a>
+            <a class="indent1" href="/sub-category2.html">Sub-category 2</a>
+            <a class="indent2" href="/sub-category3.html">Sub-category 3</a>
+            <a href="/category2.html">Category 2</a>
+            <a href="/category3.html">Category 3</a>
+            <a href="/category4.html">Category 4</a>
+        </nav>
+        <main>
