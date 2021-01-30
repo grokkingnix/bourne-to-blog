@@ -88,13 +88,15 @@ Copy the generated public key to your SFTP server:
 
     $ ssh-copy-id -i ~/.ssh/ed25519.pub ftpuser@ftp.host.com
 
-### Slackware Installation
+### Linux / OSX Installation
 
-1. `su - root` 
-2. `wget https://raw.githubusercontent.com/grokkingnix/bourne-to-blog/master/blog -P /usr/local/bin/`
-3. `chown YOUR_USER:YOUR_USER_GROUP /usr/local/bin/blog` i.e. `chown username:groupname /usr/local/bin/blog`
-4. `chmod +x /usr/local/bin/blog`
-5. `vim /usr/local/bin/blog`
+1. Install the [discount](https://github.com/nueh/discount) library with your system's preferred method
+2. Ensure that you have `/usr/local/bin/` in your `$PATH` i.e. `$ echo $PATH`
+3. `su - root` 
+4. `wget https://raw.githubusercontent.com/grokkingnix/bourne-to-blog/master/blog -P /usr/local/bin/`
+5. `chown YOUR_USER:YOUR_USER_GROUP /usr/local/bin/blog` i.e. `chown username:groupname /usr/local/bin/blog`
+6. `chmod +x /usr/local/bin/blog`
+7. `vim /usr/local/bin/blog`
 
 ## Basic Usage
 
@@ -156,7 +158,7 @@ Alternatively you can build and publish a single post by using the `-s` flag, fo
 6. ~~Add option to publish a single article~~
 7. ~~Add option to specify header and footer files to build posts with~~
 8. ~~Add CSS `id` attribute o all `h2-h4` HTML tags~~
-9. Add major Linux distribution installation instructions
+9. ~~Add major Linux distribution installation instructions~~
 
 ## License
 
