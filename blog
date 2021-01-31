@@ -55,16 +55,19 @@ ARG_ERR_MSG="An option you provided requires an argument, see below.
 # Function that will display the expected usage
 function blogUsage() {
     echo "$USAGE"
-}
-
-# Function that will display command usage and exit
-function exitBlog() {
-    blogUsage
     exit 1
 }
 
 # Define the SINGLE_POST variable with the default value of empty.
 SINGLE_POST=""
+
+# Determine if any arguments were passed in by the user
+if (( $# < 1 ))
+
+# If no arguments, print the usage and exit
+then
+    blogUsage
+fi
 
 # Define the flags the user can pass to the script
 while getopts :bpzHh:f:s: flag
@@ -76,10 +79,10 @@ do
 	h) HEADER_FILE=${OPTARG};;
 	f) FOOTER_FILE=${OPTARG};;
 	s) SINGLE_POST=${OPTARG};;
-	H) exitBlog;;
+	H) blogUsage;;
 	:) echo "$ARG_ERR_MSG"
-	    exitBlog;;
-	*) exitBlog;;
+	    blogUsage;;
+	*) globUsage;;
 esac
 done
 
