@@ -287,7 +287,7 @@ then
 fi
 
 # Execute the publishPosts function if the -p flag was specified by the user. 
-# This is option will only upload files if they are not already found on the web server
+# This option will only upload files if they are not already found on the web server
 if [ $PUBLISH ]
 then
 
