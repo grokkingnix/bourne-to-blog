@@ -16,6 +16,7 @@
 - [Custom Header and Footer](#custom-header-and-footer)
 - [Force Publishing](#force-publishing)
 - [Build and Publish Single Post](#build-and-publish-single-post)
+- [Build and Publish Blog Index Page](#build-and-publish-blog-index-page)
 - [Create a Wiki](#create-a-wiki)
 - [To-do](#to-do)
 - [License](#license)
@@ -149,6 +150,26 @@ By default when you build and publish posts Bourne to Blog will do this in batch
 
 Alternatively you can build and publish a single post by using the `-s` flag, for example: `blog -bps file.md` this will only perform the building and publishing functions on the specified file.
 
+## Build and Publish Blog Index Page
+
+You can build and publish the blog index page with the `-m` option. Depending on your blog setup this can be thought of as your home page. Three variables need to be specified for this option to work:
+
+`BLOG_MAIN`: This variable is the relative path on your web server to where your blog index page resides
+`BLOG_DOMAIN`: This is your blog web address i.e. `https://domain.com`
+`BLOG_INDEX`: This variable is the full path to a `.md` file that contains the introduction to your blog index page
+
+The `-m` option will get all of the posts currently published on your website (internet access required) and create a local list, it will then build a new page from that list of posts and upload it to your public ftp server. 
+
+This option requires for your post `.md` files to start with the following style of heading:
+
+    # CSS Grid Navigation Bar
+     
+    ##### Published: 2020-08-20 | Last Updated: 2021-02-02 | ~8 Minute Read
+    
+This is because of how each post is parsed, the title and published date are expected to be in this specific format. If you have a different format, your index page may not be built as expected. 
+
+For an example of how this index page will look please see [here](https://nixing.mx/blog/blog.html).
+
 ## Create a Wiki
 
 You can create your very own Wiki with Bourne to Blog, take a look at the `samples` folder for the files that can help you. You can see a detailed step by step guide [here](https://nixing.mx/blog/creating-a-wiki-with-bourne-to-blog.html)
@@ -156,14 +177,15 @@ You can create your very own Wiki with Bourne to Blog, take a look at the `sampl
 ## To-do
 
 1. Add RSS feed feature
-2. ~~Add sample header file~~
-3. ~~Add sample footer file~~
-4. ~~Add sample CSS file~~
-5. ~~Add option to build a single article~~
-6. ~~Add option to publish a single article~~
-7. ~~Add option to specify header and footer files to build posts with~~
-8. ~~Add CSS `id` attribute o all `h2-h4` HTML tags~~
-9. ~~Add major Linux distribution installation instructions~~
+2. ~~Add option to build main blog index file~~
+3. ~~Add sample header file~~
+4. ~~Add sample footer file~~
+5. ~~Add sample CSS file~~
+6. ~~Add option to build a single article~~
+7. ~~Add option to publish a single article~~
+8. ~~Add option to specify header and footer files to build posts with~~
+9. ~~Add CSS `id` attribute o all `h2-h4` HTML tags~~
+10. ~~Add major Linux distribution installation instructions~~
 
 ## License
 
