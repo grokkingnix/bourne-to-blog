@@ -154,9 +154,9 @@ Alternatively you can build and publish a single post by using the `-s` flag, fo
 
 You can build and publish the blog index page with the `-m` option. Depending on your blog setup this can be thought of as your home page. Three variables need to be specified for this option to work:
 
-- `BLOG_MAIN`: This variable is the relative path on your web server to where your blog index page resides
-- `BLOG_DOMAIN`: This is your blog web address i.e. `https://domain.com`
-- `BLOG_INDEX`: This variable is the full path to a `.md` file that contains the introduction to your blog index page
+1. `BLOG_MAIN`: This variable is the relative path on your web server to where your blog index page resides
+2. `BLOG_DOMAIN`: This is your blog web address i.e. `https://domain.com`
+3. `BLOG_INDEX`: This variable is the full path to a `.md` file that contains the introduction to your blog index page
 
 The `-m` option will get all of the posts currently published on your website (internet access required) and create a local list, it will then build a new page from that list of posts and upload it to your public ftp server. 
 
