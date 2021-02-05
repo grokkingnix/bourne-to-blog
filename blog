@@ -12,8 +12,17 @@ SOURCE_DIR=/path/to/the/md/files/that/will/be/built
 # Directory to store html files created by the buildWebsite function
 WORK_DIR=/directory/to/store/your/built/blog/posts
 
-# Blog posts path on the public server
+# Blog posts path on the public ftp server, where blog posts and blog index will reside
 BLOG_DIR=/blog/path/on/your/webserver
+
+# Blog index path on the public web server, where the page that will display blog entries will reside
+BLOG_MAIN=/blog/
+
+# Blog domain without an ending slash "/"
+BLOG_DOMAIN=https://yourdomain.com
+
+# Blog index page path
+BLOG_INDEX=/path/to/the/blog/index/file.md
 
 # Full path to the header file. This value will be ignored if the -h flag is provided
 HEADER_FILE=/path/to/the/header/file.html
@@ -70,7 +79,7 @@ then
 fi
 
 # Define the flags the user can pass to the script
-while getopts :bpzHh:f:s: flag
+while getopts :bpzHh:f:s:m flag
 do
     case "${flag}" in
 	b) BUILD=true;;
@@ -79,6 +88,7 @@ do
 	h) HEADER_FILE=${OPTARG};;
 	f) FOOTER_FILE=${OPTARG};;
 	s) SINGLE_POST=${OPTARG};;
+	m) MAIN=true;;
 	H) blogUsage;;
 	:) echo "$ARG_ERR_MSG"
 	    blogUsage;;
@@ -277,6 +287,51 @@ function publishPosts() {
     fi
 }
 
+# Function that will build the blog index page
+function buildMain() {
+
+	# List the content of the webserver directory
+	SERVER_FILES=`(echo cd $BLOG_DIR; echo ls; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST" | grep -v "sftp"`
+	
+	# Write the content of SERVER_FILES to the blog-pages.tmp file
+	echo $SERVER_FILES > $WORK_DIR/blog-pages.tmp
+
+	# Remove new lines from the blog-pages.tmp file
+	sed -i 's/ /\n/g' $WORK_DIR/blog-pages.tmp
+
+	# Loop through every entry in the blog-pages.tmp and do a curl on each
+	# Parse the curl output with sed to create the blog entries section // Cleanup pending
+	cat $WORK_DIR/blog-pages.tmp | while read line; do curl -s $BLOG_DOMAIN$BLOG_MAIN$line | sed -n "/^<h1>/{N;N}; s/\n\n//; s/<h1>\(.*\)<\/h1><h5>Published: \([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\)\(.*\)/<p>\2 <a href=\"$line\">\1<\/a><\/p>/p" >> $WORK_DIR/blog-entries.tmp;done
+
+	# Sort the content of blog-entries.tmp to have the newest on top
+	cat $WORK_DIR/blog-entries.tmp | sort -r > $WORK_DIR/sorted-entries.tmp
+
+	# Define the FILE_NAME variable from the BLOG_INDEX variable value, removes the extension
+    	FILE_NAME=`basename "$BLOG_INDEX" | cut -d "." -f 1`
+
+    	# Use the Markdown library to create the temporary HTML file
+    	markdown $BLOG_INDEX > $WORK_DIR$FILE_NAME
+    	
+    	# Build the page with the HEADER_FILE, BLOG_INDEX and FOOTER_FILE content by contactenating to a new HTML file
+    	cat $HEADER_FILE $WORK_DIR$FILE_NAME $WORK_DIR/sorted-entries.tmp $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
+
+	# Delete temporary file blog-pages.tmp
+	rm $WORK_DIR/blog-pages.tmp
+
+	# Delete temporary file blog-entries.tmp
+	rm $WORK_DIR/blog-entries.tmp
+
+	# Delete temporary file sorted-entries.tmp
+	rm $WORK_DIR/sorted-entries.tmp
+
+    	# Delete the FILE_NAME file which has no .html extension
+    	rm $WORK_DIR$FILE_NAME
+
+	# Upload the FILE_NAME file to the web server forcefully (Will overwrite if file exists)
+	(echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $WORK_DIR$FILE_NAME.html; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
+}
+
+
 # Execute the buildPosts function if the -b flag was specified by the user. 
 # This option will convert all files from .md to .html by using the markdown command
 if [ $BUILD ]
@@ -302,4 +357,13 @@ then
 
     # Call the publishPosts function and pass the FORCE_PUB variable
     publishPosts $FORCE_PUB
+fi
+
+# Execute the buildMain function if the -m flag was specified by the user. 
+# This option will build and publish the main blog page to the web server
+if [ $MAIN ]
+then
+
+    # Call the buildMain function
+    buildMain
 fi
