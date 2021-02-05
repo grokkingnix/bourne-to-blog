@@ -146,7 +146,7 @@ In case you'd like to force all built posts to be published to your public SFTP 
 
 ## Build and Publish Single Post
 
-By default when you build and publish posts Bourne to Blog will do this in batches. So if you have several articles you can simply run `blog -bp` and this will build all the posts and then publish all of them with this single command (This will not overwrite any of the posts that already exist in the SFTP server). 
+By default when you build and publish posts Bourne to Blog will do this in batches. So if you have several articles you can simply run `blog -bp` and this will build all the posts and then publish all of them with this single command (This will not overwrite any duplicate file names in the SFTP server). 
 
 Alternatively you can build and publish a single post by using the `-s` flag, for example: `blog -bps file.md` this will only perform the building and publishing functions on the specified file.
 
