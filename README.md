@@ -90,7 +90,7 @@ Copy the generated public key to your SFTP server:
 
     $ ssh-copy-id -i ~/.ssh/ed25519.pub ftpuser@ftp.host.com
 
-### Linux and  OS X Installation
+### Linux and OS X Installation
 
 1. Install the [discount](https://github.com/nueh/discount) library with your system's preferred method
 2. Ensure that you have `/usr/local/bin/` in your `$PATH` i.e. `$ echo $PATH`
