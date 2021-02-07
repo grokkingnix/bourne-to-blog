@@ -15,14 +15,26 @@ WORK_DIR=/directory/to/store/your/built/blog/posts
 # Blog posts path on the public ftp server, where blog posts and blog index will reside
 BLOG_DIR=/blog/path/on/your/webserver
 
+# Document root path on the public ftp server, where pages like index.html and feed.xml will reside
+ROOT_WEB_DIR=/root/path/on/your/webserver
+
 # Blog index path on the public web server, where the page that will display blog entries will reside
-BLOG_MAIN=/blog/
+BLOG_MAIN=/web/path/to/blog
 
 # Blog domain without an ending slash "/"
 BLOG_DOMAIN=https://yourdomain.com
 
 # Blog index page path
 BLOG_INDEX=/path/to/the/blog/index/file.md
+
+# Public address for the blog index page without an ending slash "/"
+BLOG_MAIN_PAGE=https://yourdomain.com/path/to/blog.html
+
+# Full path to the RSS header file.
+RSS_HEADER_FILE=/path/to/the/rss/header/file
+
+# Full path to the RSS footer file.
+RSS_FOOTER_FILE=/path/to/the/rss/header/file
 
 # Full path to the header file. This value will be ignored if the -h flag is provided
 HEADER_FILE=/path/to/the/header/file.html
@@ -80,7 +92,7 @@ then
 fi
 
 # Define the flags the user can pass to the script
-while getopts :bpzHh:f:s:m flag
+while getopts :bpzHh:f:s:mr flag
 do
     case "${flag}" in
 	b) BUILD=true;;
@@ -90,10 +102,11 @@ do
 	f) FOOTER_FILE=${OPTARG};;
 	s) SINGLE_POST=${OPTARG};;
 	m) MAIN=true;;
+	r) RSS=true;;
 	H) blogUsage;;
 	:) echo "$ARG_ERR_MSG"
 	    blogUsage;;
-	*) globUsage;;
+	*) blogUsage;;
 esac
 done
 
@@ -332,6 +345,19 @@ function buildMain() {
 	(echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $WORK_DIR$FILE_NAME.html; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
 }
 
+# Function that will build the blog RSS feed
+function buildFeed() {
+
+	# curl the BLOG_MAIN_PAGE parse output with sed to create the RSS feed items // Cleanup pending
+	curl -s $BLOG_MAIN_PAGE | sed -n "/<p>[0-9][0-9][0-9][0-9]/ s;<p>\(.*\) <a href=\"\(.*\)\">\(.*\)</a></p>;<item>\n<title>\3</title>\n<link>$BLOG_DOMAIN$BLOG_MAIN\2</link>\n<pubDate>\1</pubDate>\n</item>;p" > $WORK_DIR/rss_entries.tmp
+
+	# Build the feed.xml page with the RSS_HEADER_FILE, rss_entries.tmp and RSS_FOOTER_FILE content by concatenating to a new XML file
+	cat $RSS_HEADER_FILE $WORK_DIR/rss_entries.tmp $RSS_FOOTER_FILE > $WORK_DIR/feed.xml
+
+	# Upload the feed.xml file to the ROOT_WEB_DIR forcefully (Will overwrite if file exists)
+	(echo cd $ROOT_WEB_DIR ; echo lcd $WORK_DIR; echo put feed.xml; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
+}
+
 
 # Execute the buildPosts function if the -b flag was specified by the user. 
 # This option will convert all files from .md to .html by using the markdown command
@@ -367,4 +393,12 @@ then
 
     # Call the buildMain function
     buildMain
+fi
+# Execute the buildFeed function if the -r flag was specified by the user. 
+# This option will build and publish the feed.xml file to the web server
+if [ $RSS ]
+then
+
+    # Call the buildFeed function
+    buildFeed
 fi
