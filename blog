@@ -347,7 +347,7 @@ function buildMain() {
 function buildFeed() {
 
 	# curl the BLOG_MAIN_PAGE parse output with sed to create the RSS feed items // Cleanup pending
-	curl -s $BLOG_MAIN_PAGE | sed -n "/<p>[0-9][0-9][0-9][0-9]/ s;<p>\(.*\) <a href=\"\(.*\)\">\(.*\)</a></p>;<item>\n<title>\3</title>\n<link>$BLOG_DOMAIN$BLOG_MAIN\2</link>\n<pubDate>\1</pubDate>\n</item>;p" > $WORK_DIR/rss-entries.tmp
+	curl -s $BLOG_MAIN_PAGE | sed -n "/<p>[0-9][0-9][0-9][0-9]/ s;<p>\(.*\) <a href=\"\(.*\)\">\(.*\)</a></p>;<item>\n<title>\3</title>\n<link>$BLOG_DOMAIN$BLOG_MAIN\2</link>\n<guid>$BLOG_DOMAIN$BLOG_MAIN\2</guid>\n<pubDate>\1</pubDate>\n</item>;p" > $WORK_DIR/rss-entries.tmp
 
 	# Build the feed.xml page with the RSS_HEADER_FILE, rss_entries.tmp and RSS_FOOTER_FILE content by concatenating to a new XML file
 	cat $RSS_HEADER_FILE $WORK_DIR/rss-entries.tmp $RSS_FOOTER_FILE > $WORK_DIR/feed.xml
@@ -356,7 +356,7 @@ function buildFeed() {
 	(echo cd $ROOT_WEB_DIR ; echo lcd $WORK_DIR; echo put feed.xml; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
 
 	# Delete temporary file rss_entries.tmp
-	rm $WORK_DIR/sorted-entries.tmp
+	rm $WORK_DIR/rss-entries.tmp
 }
 
 
