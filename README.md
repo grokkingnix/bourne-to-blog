@@ -17,6 +17,7 @@
 - [Force Publishing](#force-publishing)
 - [Build and Publish Single Post](#build-and-publish-single-post)
 - [Build and Publish Blog Index Page](#build-and-publish-blog-index-page)
+- [Build and Publish an RSS feed](#build-and-publish-an-rss-feed)
 - [Create a Wiki](#create-a-wiki)
 - [To-do](#to-do)
 - [License](#license)
@@ -170,13 +171,23 @@ This is because of how each post is parsed, the title and published date are exp
 
 For an example of how this index page will look please see [here](https://nixing.mx/blog/blog.html).
 
+## Build and publish an RSS feed
+
+You can use the `-r` option in order to publish an upated RSS feed of our post entries. This feature is meant to be used along with the `-m` option when publishing a new post to your blog. The RSS feed `<items>` get created based on the format that the `-m` options generates. 
+
+Examples: 
+
+This will build and publish a `feed.xml` file based on the contents of your blog index page:
+
+    $ blog -r
+
 ## Create a Wiki
 
 You can create your very own Wiki with Bourne to Blog, take a look at the `samples` folder for the files that can help you. You can see a detailed step by step guide [here](https://nixing.mx/blog/creating-a-wiki-with-bourne-to-blog.html)
     
 ## To-do
 
-1. Add RSS feed feature
+1. ~~Add RSS feed feature~~
 2. ~~Add option to build main blog index file~~
 3. ~~Add sample header file~~
 4. ~~Add sample footer file~~
