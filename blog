@@ -59,15 +59,12 @@ SOURCE_EXTENSION=*.md
 
 # Usage message that explains command flags
 USAGE="Usage: The blog command takes the following options:
-    -b	Build posts from all $SOURCE_EXTENSION files in the WORK_DIR directory
-    -s  Build and publish a single post. This flag expects a file name.
-	This will build a single file i.e. blog -bs filename.md
-	This will publish a single file i.e. blog -ps filename.md
-	This will build and publish a single file i.e. blog -bps filename.md
+    -b	Build posts from all .md files in the SOURCE_DIR directory
     -p	Publish all built posts in the WORK_DIR directory. Does not overwrite duplicate files in remote SFTP server
     -z	Force publishing of all built posts in the WORK_DIR directory. Overwrites duplicate files in remote SFTP server
-    -h	Define a custom header file for post building. i.e. blog -bh /home/user/header-file
-    -f	Define a custom footer file for post building. i.e. blog -bf /home/user/footer-file
+    -s  Build and/or publish a single post. i.e. blog -bps filename.md
+    -h	Define a custom header file for post building. i.e. blog -bh header-file
+    -f	Define a custom footer file for post building. i.e. blog -bf footer-file
     -m  Build and publish the main blog index page from already published posts
     -r  Build and publish the RSS feed file to the ROOT_WEB_DIR path on the public web server"
 
