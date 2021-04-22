@@ -36,14 +36,13 @@ You can also take a look at other's blogs created with Bourne to Blog [here](htt
 
 ## Features
 
-Bourne to Blog is meant to be simple and easy to use, at the moment there are only two features implemented:
+Bourne to Blog is meant to be simple and easy to use, these are the features currently implemented:
 
 1. Convert / Build blog posts from Markdown files
 2. Publish blog posts to a public web server via SFTP
+3. Build and publish RSS feed
+4. Build and publish posts page
 
-A third feature is currently being developed
-
-- Build and publish RSS feed
 
 ## How it Works
 
