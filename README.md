@@ -186,16 +186,17 @@ You can create your very own Wiki with Bourne to Blog, take a look at the `sampl
     
 ## To-do
 
+1. Generate valid RFC822 date-times in the RSS feed
 1. ~~Add RSS feed feature~~
-2. ~~Add option to build main blog index file~~
-3. ~~Add sample header file~~
-4. ~~Add sample footer file~~
-5. ~~Add sample CSS file~~
-6. ~~Add option to build a single article~~
-7. ~~Add option to publish a single article~~
-8. ~~Add option to specify header and footer files to build posts with~~
-9. ~~Add CSS `id` attribute o all `h2-h4` HTML tags~~
-10. ~~Add major Linux distribution installation instructions~~
+1. ~~Add option to build main blog index file~~
+1. ~~Add sample header file~~
+1. ~~Add sample footer file~~
+1. ~~Add sample CSS file~~
+1. ~~Add option to build a single article~~
+1. ~~Add option to publish a single article~~
+1. ~~Add option to specify header and footer files to build posts with~~
+1. ~~Add CSS `id` attribute o all `h2-h4` HTML tags~~
+1. ~~Add major Linux distribution installation instructions~~
 
 ## License
 
