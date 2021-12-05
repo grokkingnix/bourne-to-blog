@@ -194,7 +194,7 @@ function buildPosts() {
     	    sed -i '/^<h[2-4] id=".*">/ N; s/\n//' $WORK_DIR$FILE_NAME.html
 
           # Add an SVG icon to h2-h4 tags, to be shown on heading hover
-          sed -i "s;^\(<h[2-4] id=\"\(.*\)\">\)\(.*\);\1<a href=$BLOG_DOMAIN$BLOG_MAIN$FILE_NAME.html#\2>$SVG<\/a>\3;g" $WORK_DIR$FILE_NAME.html
+          sed -i "s;^\(<h[2-4] id=\"\(.*\)\">\)\(.*\)\(<\/h[2-4]\);\1\3<a href=$BLOG_DOMAIN$BLOG_MAIN$FILE_NAME.html#\2>$SVG<\/a>\4;g" $WORK_DIR$FILE_NAME.html
 
     	    # Delete the $FILE_NAME file which has no .html extension
     	    rm $WORK_DIR$FILE_NAME
@@ -240,7 +240,7 @@ function buildPosts() {
     	rm $WORK_DIR$FILE_NAME
 
       # Add an SVG icon to h2-h4 tags, to be shown on heading hover
-      sed -i "s;^\(<h[2-4] id=\"\(.*\)\">\)\(.*\);\1<a href=$BLOG_DOMAIN$BLOG_MAIN$FILE_NAME.html#\2>$SVG<\/a>\3;g" $WORK_DIR$FILE_NAME.html
+      sed -i "s;^\(<h[2-4] id=\"\(.*\)\">\)\(.*\)\(<\/h[2-4]\);\1\3<a href=$BLOG_DOMAIN$BLOG_MAIN$FILE_NAME.html#\2>$SVG<\/a>\4;g" $WORK_DIR$FILE_NAME.html
 
     	# Echo a message when single post building has completed
     	echo $COMPLETION_MSG1
