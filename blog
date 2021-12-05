@@ -19,7 +19,7 @@ BLOG_DIR=/blog/path/on/your/webserver
 ROOT_WEB_DIR=/root/path/on/your/webserver
 
 # Blog index path on the public web server, where the page that will display blog entries will reside
-BLOG_MAIN=/web/path/to/blog
+BLOG_MAIN=/web/path/to/blog/
 
 # Blog domain without an ending slash "/"
 BLOG_DOMAIN=https://yourdomain.com
