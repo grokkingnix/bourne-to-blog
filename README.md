@@ -187,6 +187,7 @@ You can create your very own Wiki with Bourne to Blog, take a look at the `sampl
 ## To-do
 
 1. Generate valid RFC822 date-times in the RSS feed
+1. ~~Add visible SVG icon with link to post id tag sections~~
 1. ~~Add RSS feed feature~~
 1. ~~Add option to build main blog index file~~
 1. ~~Add sample header file~~
