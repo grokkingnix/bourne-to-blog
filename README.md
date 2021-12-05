@@ -20,7 +20,6 @@
 - [Build and Publish an RSS feed](#build-and-publish-an-rss-feed)
 - [Create a Wiki](#create-a-wiki)
 - [To-do](#to-do)
-- [License](#license)
 
 ## About
 
@@ -199,10 +198,3 @@ You can create your very own Wiki with Bourne to Blog, take a look at the `sampl
 1. ~~Add CSS `id` attribute o all `h2-h4` HTML tags~~
 1. ~~Add major Linux distribution installation instructions~~
 
-## License
-
-This program is libre software: You can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-See the GNU General Public License version 3 for more details.
