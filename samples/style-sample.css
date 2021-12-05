@@ -29,7 +29,6 @@
 html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
 }
 
 /*===========================================
@@ -112,10 +111,16 @@ a {
 a:hover {
   color: var(--link-hover-color);
 }
-h2 > a {
+
+h2 > a,
+h3 > a,
+h4 > a {
   display: none;
 }
-h2:hover a {
+
+h2:hover a,
+h3:hover a,
+h4:hover a {
   display: inline-block;
   margin-left: 0.3rem;
 }
@@ -217,7 +222,9 @@ svg {
     grid-column: 1;
     padding-left: 1em;
   }
-  h2 > a {
+  h2 > a,
+  h3 > a,
+  h4 > a {
     display: inline-block;
   }
   svg {
