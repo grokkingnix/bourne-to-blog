@@ -43,7 +43,7 @@ HEADER_FILE=/path/to/the/header/file.html
 FOOTER_FILE=/path/to/the/footer/file.html
 
 # Full path to the main blog page header file. This value will be ignored if the -h flag is provided
-MAIN_HEADER_FILE=/home/eric/nextcloud/documents/webdev/personal-sites/nixing.mx/draft-blogposts/mdfiles/main-header.txt
+MAIN_HEADER_FILE=/path/to/the/main/header/file.html
 
 # Variables for SFTP connection
 USER=ftpusername
