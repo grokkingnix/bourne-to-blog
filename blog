@@ -15,6 +15,9 @@ WORK_DIR=/directory/to/store/your/built/blog/posts
 # Blog posts path on the public ftp server, where blog posts and blog index will reside
 BLOG_DIR=/blog/path/on/your/webserver
 
+# Blog posts folder name on the public ftp server, without slashes "/"
+BLOG_DIR_NAME=posts
+
 # Document root path on the public ftp server, where pages like index.html and feed.xml will reside
 ROOT_WEB_DIR=/root/path/on/your/webserver
 
@@ -24,7 +27,7 @@ BLOG_MAIN=/web/path/to/blog/
 # Blog domain without an ending slash "/"
 BLOG_DOMAIN=https://yourdomain.com
 
-# Blog index page path
+# Blog index page name
 BLOG_INDEX=/path/to/the/blog/index/file.md
 
 # Public address for the blog index page without an ending slash "/"
@@ -197,7 +200,7 @@ function buildPosts() {
     	    sed -i '/^<h[2-4] id=".*">/ N; s/\n//' $WORK_DIR$FILE_NAME.html
 
           # Add an SVG icon to h2-h4 tags, to be shown on heading hover
-          sed -i "s;^\(<h[2-4] id=\"\(.*\)\">\)\(.*\)\(<\/h[2-4]\);\1\3<a href=$BLOG_DOMAIN$BLOG_MAIN$FILE_NAME.html#\2>$SVG<\/a>\4;g" $WORK_DIR$FILE_NAME.html
+          sed -i "s;^\(<h[2-4] id=\"\(.*\)\">\)\(.*\)\(<\/h[2-4]\);\1\3<a href=$BLOG_DOMAIN/$BLOG_DIR_NAME/$FILE_NAME.html#\2>$SVG<\/a>\4;g" $WORK_DIR$FILE_NAME.html
 
     	    # Delete the $FILE_NAME file which has no .html extension
     	    rm $WORK_DIR$FILE_NAME
@@ -243,7 +246,7 @@ function buildPosts() {
     	rm $WORK_DIR$FILE_NAME
 
       # Add an SVG icon to h2-h4 tags, to be shown on heading hover
-      sed -i "s;^\(<h[2-4] id=\"\(.*\)\">\)\(.*\)\(<\/h[2-4]\);\1\3<a href=$BLOG_DOMAIN$BLOG_MAIN$FILE_NAME.html#\2>$SVG<\/a>\4;g" $WORK_DIR$FILE_NAME.html
+      sed -i "s;^\(<h[2-4] id=\"\(.*\)\">\)\(.*\)\(<\/h[2-4]\);\1\3<a href=$BLOG_DOMAIN/$BLOG_DIR_NAME/$FILE_NAME.html#\2>$SVG<\/a>\4;g" $WORK_DIR$FILE_NAME.html
 
     	# Echo a message when single post building has completed
     	echo $COMPLETION_MSG1
@@ -325,7 +328,7 @@ function buildMain() {
 
 	# Loop through every entry in the blog-pages.tmp and do a curl on each
 	# Parse the curl output with sed to create the blog entries section // Cleanup pending
-	cat $WORK_DIR/blog-pages.tmp | while read line; do curl -s $BLOG_DOMAIN$BLOG_MAIN$line | sed -n "/^<h1>/{N;N}; s/\n\n//; s/<h1>\(.*\)<\/h1><h5>Published: \([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\)\(.*\)/<p>\2 <a href=\"$line\">\1<\/a><\/p>/p" >> $WORK_DIR/blog-entries.tmp;done
+	cat $WORK_DIR/blog-pages.tmp | while read line; do curl -s $BLOG_DOMAIN/$BLOG_DIR_NAME/$line | sed -n "/^<h1>/{N;N}; s/\n\n//; s/<h1>\(.*\)<\/h1><h5>Published: \([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\)\(.*\)/<p>\2 <a href=\"$BLOG_DIR_NAME\/$line\">\1<\/a><\/p>/p" >> $WORK_DIR/blog-entries.tmp;done
 
 	# Sort the content of blog-entries.tmp to have the newest on top
 	cat $WORK_DIR/blog-entries.tmp | sort -r > $WORK_DIR/sorted-entries.tmp
@@ -333,11 +336,8 @@ function buildMain() {
 	# Define the FILE_NAME variable from the BLOG_INDEX variable value, removes the extension
     	FILE_NAME=`basename "$BLOG_INDEX" | cut -d "." -f 1`
 
-    	# Use the Markdown library to create the temporary HTML file
-    	markdown $BLOG_INDEX > $WORK_DIR$FILE_NAME
-    	
-    	# Build the page with the MAIN_HEADER_FILE, BLOG_INDEX and FOOTER_FILE content by contactenating to a new HTML file
-    	cat $MAIN_HEADER_FILE $WORK_DIR$FILE_NAME $WORK_DIR/sorted-entries.tmp $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
+    	# Build the page with the MAIN_HEADER_FILE, $WORK_DIR/sorted-entries.tmp and FOOTER_FILE content by contactenating to a new HTML file
+    	cat $MAIN_HEADER_FILE $WORK_DIR/sorted-entries.tmp $FOOTER_FILE > $WORK_DIR$FILE_NAME.html
 
 	# Delete temporary file blog-pages.tmp
 	rm $WORK_DIR/blog-pages.tmp
@@ -348,11 +348,8 @@ function buildMain() {
 	# Delete temporary file sorted-entries.tmp
 	rm $WORK_DIR/sorted-entries.tmp
 
-    	# Delete the FILE_NAME file which has no .html extension
-    	rm $WORK_DIR$FILE_NAME
-
 	# Upload the FILE_NAME file to the web server forcefully (Will overwrite if file exists)
-	(echo cd $BLOG_DIR; echo lcd $WORK_DIR; echo put $WORK_DIR$FILE_NAME.html; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
+	(echo cd $ROOT_WEB_DIR; echo lcd $WORK_DIR; echo put $WORK_DIR$FILE_NAME.html; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
 }
 
 # Function that will build the blog RSS feed
