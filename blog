@@ -356,16 +356,28 @@ function buildMain() {
 function buildFeed() {
 
 	# curl the BLOG_MAIN_PAGE parse output with sed to create the RSS feed items // Cleanup pending
-	curl -s $BLOG_MAIN_PAGE | sed -n "/<p>[0-9][0-9][0-9][0-9]/ s;<p>\(.*\) <a href=\"\(.*\)\">\(.*\)</a></p>;<item>\n<title>\3</title>\n<link>$BLOG_DOMAIN$BLOG_MAIN\2</link>\n<guid>$BLOG_DOMAIN$BLOG_MAIN\2</guid>\n<pubDate>\1</pubDate>\n</item>;p" > $WORK_DIR/rss-entries.tmp
+	curl -s $BLOG_MAIN_PAGE | sed -n "/<p>[0-9][0-9][0-9][0-9]/ s;<p>\(.*\) <a href=\"\(.*\)\">\(.*\)</a></p>;<item>\n<title>\3</title>\n<link>$BLOG_DOMAIN$BLOG_MAIN\2</link>\n<guid>$BLOG_DOMAIN$BLOG_MAIN\2</guid>\n<pubDate>\1</pubDate>\n</item>;p" >> $WORK_DIR/rss-entries.tmp
 
-	# Build the feed.xml page with the RSS_HEADER_FILE, rss_entries.tmp and RSS_FOOTER_FILE content by concatenating to a new XML file
-	cat $RSS_HEADER_FILE $WORK_DIR/rss-entries.tmp $RSS_FOOTER_FILE > $WORK_DIR/feed.xml
+	# Build the feed.tmp file with the RSS_HEADER_FILE, rss_entries.tmp and RSS_FOOTER_FILE content
+	cat $RSS_HEADER_FILE $WORK_DIR/rss-entries.tmp $RSS_FOOTER_FILE > $WORK_DIR/feed.tmp
+
+  # Update dates on the generated feed.tmp file to comply with RFC-822 specification
+	cat $WORK_DIR/feed.tmp | while IFS= read -r line; do
+    if [[ $line =~ (.*<pubDate>)([0-9]{4}-[0-9]{2}-[0-9]{2})(</pubDate>.*) ]]; then
+        NEW_DATE=$(date -d "${BASH_REMATCH[2]}" +"%a, %d %b %Y %T %z")
+        line="${BASH_REMATCH[1]}$NEW_DATE${BASH_REMATCH[3]}"
+    fi
+    echo "$line"
+    done > $WORK_DIR/feed.xml
 
 	# Upload the feed.xml file to the ROOT_WEB_DIR forcefully (Will overwrite if file exists)
 	(echo cd $ROOT_WEB_DIR ; echo lcd $WORK_DIR; echo put feed.xml; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
 
 	# Delete temporary file rss_entries.tmp
 	rm $WORK_DIR/rss-entries.tmp
+
+	# Delete temporary file feed.tmp
+	rm $WORK_DIR/feed.tmp
 }
 
 
