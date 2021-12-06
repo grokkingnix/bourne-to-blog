@@ -25,13 +25,13 @@
 
 Bourne to Blog is a bash script to create blog posts from `.md` files in a simple manner.
 
-You can take a look at this [blog](https://nixing.mx/blog/update-to-my-blogging-workflow.html) post for additional information on my motivation to create this tool
+You can take a look at this [blog](https://nixing.mx/posts/update-to-my-blogging-workflow.html) post for additional information on my motivation to create this tool
 
 ## Demo
 
-You can take a look at my [blog](https://nixing.mx/blog/blog.html) for a sample of what type of blog posts will be produced by using Bourne to Blog.
+You can take a look at my [blog](https://nixing.mx/index.html) for a sample of what type of blog posts will be produced by using Bourne to Blog.
 
-You can also take a look at other's blogs created with Bourne to Blog [here](https://github.com/grokkingnix/bourne-to-blog/blob/master/samples/sample-blogs.md).
+You can also take a look at others' blogs created with Bourne to Blog [here](https://github.com/grokkingnix/bourne-to-blog/blob/master/samples/sample-blogs.md).
 
 ## Features
 
@@ -167,7 +167,7 @@ This option requires for your post `.md` files to start with the following style
     
 This is because of how each post is parsed, the title and published date are expected to be in this specific format. If you have a different format, your index page may not be built as expected. 
 
-For an example of how this index page will look please see [here](https://nixing.mx/blog/blog.html).
+For an example of how this index page will look please see [here](https://nixing.mx/index.html).
 
 ## Build and publish an RSS feed
 
@@ -181,7 +181,7 @@ This will build and publish a `feed.xml` file based on the contents of your blog
 
 ## Create a Wiki
 
-You can create your very own Wiki with Bourne to Blog, take a look at the `samples` folder for the files that can help you. You can see a detailed step by step guide [here](https://nixing.mx/blog/creating-a-wiki-with-bourne-to-blog.html)
+You can create your very own Wiki with Bourne to Blog, take a look at the `samples` folder for the files that can help you. You can see a detailed step by step guide [here](https://nixing.mx/posts/creating-a-wiki-with-bourne-to-blog.html)
     
 ## To-do
 
