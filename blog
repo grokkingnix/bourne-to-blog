@@ -370,14 +370,14 @@ function buildFeed() {
         echo "$line"
     done > $WORK_DIR/feed.xml
 
-	# Upload the feed.xml file to the ROOT_WEB_DIR forcefully (Will overwrite if file exists)
-	(echo cd $ROOT_WEB_DIR ; echo lcd $WORK_DIR; echo put feed.xml; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
+    # Upload the feed.xml file to the ROOT_WEB_DIR forcefully (Will overwrite if file exists)
+    (echo cd $ROOT_WEB_DIR ; echo lcd $WORK_DIR; echo put feed.xml; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
 
-	# Delete temporary file rss_entries.tmp
-	rm $WORK_DIR/rss-entries.tmp
+    # Delete temporary file rss_entries.tmp
+    rm $WORK_DIR/rss-entries.tmp
 
-	# Delete temporary file feed.tmp
-	rm $WORK_DIR/feed.tmp
+    # Delete temporary file feed.tmp
+    rm $WORK_DIR/feed.tmp
 }
 
 
