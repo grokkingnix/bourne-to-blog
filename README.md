@@ -186,7 +186,7 @@ You can create your very own Wiki with Bourne to Blog, take a look at the `sampl
 
 ## Use Openring
 
-You can make use of [openring](https://git.sr.ht/~sircmpwn/openring) with the `-o` flag when building your posts. You need the additional `openring.sh` file from the `modules` folder. Configure the variable values and you can add the flag to your regular workflow. You can find more details on this [post](https://nixing.mx/posts/integrating-openring-into-a-blog.html).
+You can make use of [openring](https://git.sr.ht/~sircmpwn/openring) with the `-o` flag when building your posts. You need the additional `openring.sh` file from the `modules` folder. Configure the variable values and you can add the flag to your regular post build workflow i.e. `blog -bos post-file.md`. You can find more details on this [post](https://nixing.mx/posts/integrating-openring-into-a-blog.html).
     
     
 ## To-do
