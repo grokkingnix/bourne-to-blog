@@ -19,6 +19,7 @@
 - [Build and Publish Blog Index Page](#build-and-publish-blog-index-page)
 - [Build and Publish an RSS feed](#build-and-publish-an-rss-feed)
 - [Create a Wiki](#create-a-wiki)
+- [Use openring](#use-openring)
 - [To-do](#to-do)
 
 ## About
@@ -182,9 +183,15 @@ This will build and publish a `feed.xml` file based on the contents of your blog
 ## Create a Wiki
 
 You can create your very own Wiki with Bourne to Blog, take a look at the `samples` folder for the files that can help you. You can see a detailed step by step guide [here](https://nixing.mx/posts/creating-a-wiki-with-bourne-to-blog.html)
+
+## Use Openring
+
+You can make use of [openring](https://git.sr.ht/~sircmpwn/openring) with the `-o` flag when building your posts. You need the additional `openring.sh` file from the `modules` folder. Configure the variable values and you can add the flag to your regular workflow. You can find more details on this [post](https://nixing.mx/posts/integrating-openring-into-a-blog.html).
+    
     
 ## To-do
 
+1. ~~Integrate openring~~
 1. ~~Generate valid RFC822 date-times in the RSS feed~~
 1. ~~Add visible SVG icon with link to post id tag sections~~
 1. ~~Add RSS feed feature~~
