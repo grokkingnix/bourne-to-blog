@@ -191,6 +191,8 @@ You can make use of [openring](https://git.sr.ht/~sircmpwn/openring) with the `-
     
 ## To-do
 
+1. Crate a sitemap.xml from posts
+1. Add post title to HTML title tag
 1. ~~Integrate openring~~
 1. ~~Generate valid RFC822 date-times in the RSS feed~~
 1. ~~Add visible SVG icon with link to post id tag sections~~
