@@ -381,7 +381,7 @@ function buildFeed() {
             FILE_NAME=$(basename $WORK_DIR/${BASH_REMATCH[2]} | cut -d "." -f 1)
 
             # Set the DESCRIPTION_CONTENT variable to the output of the head command
-            DESCRIPTION_CONTENT=$(head -25 $SOURCE_DIR$FILE_NAME.md | sed "s|<.*>||g" | sed "s|#||g")
+            DESCRIPTION_CONTENT=$(cat $SOURCE_DIR$FILE_NAME.md | grep -v "Table of Contents" | grep -v "\- \[" | head -25 | sed "s|<.*>||g" | sed "s|#||g" )
 
             # Redifine the line variable to the output of the line reconstruction
             line="${BASH_REMATCH[1]}$DESCRIPTION_CONTENT${BASH_REMATCH[3]}"
@@ -393,7 +393,7 @@ function buildFeed() {
     # Write the output to the rss-entries.desc.tmp file
     done > $WORK_DIR/rss-entries-desc.tmp
 
-    # Build the feed.tmp file with the RSS_HEADER_FILE, rss_entries.tmp and RSS_FOOTER_FILE content
+    # Build the feed.tmp file with the RSS_HEADER_FILE, rss_entries-desc.tmp and RSS_FOOTER_FILE content
     cat $RSS_HEADER_FILE $WORK_DIR/rss-entries-desc.tmp $RSS_FOOTER_FILE > $WORK_DIR/feed.tmp
 
     # Update dates on the generated feed.tmp file to comply with RFC-822 specification
