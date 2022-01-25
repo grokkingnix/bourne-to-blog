@@ -381,7 +381,7 @@ function buildFeed() {
             FILE_NAME=$(basename $WORK_DIR/${BASH_REMATCH[2]} | cut -d "." -f 1)
 
             # Set the DESCRIPTION_CONTENT variable to the output of the head command
-            DESCRIPTION_CONTENT=$(cat $SOURCE_DIR$FILE_NAME.md | grep -v "Table of Contents" | grep -v "\- \[" | head -25 | sed "s|<.*>||g" | sed "s|#||g" )
+            DESCRIPTION_CONTENT=$(cat $SOURCE_DIR$FILE_NAME.md | grep -v "Table of Contents" | grep -v "\- \[" | head -25 | sed "s|<.*>||g" | sed "s|#||g"  | sed "s|\[\(.*\)\](http.*)|\1|g" )
 
             # Redifine the line variable to the output of the line reconstruction
             line="${BASH_REMATCH[1]}$DESCRIPTION_CONTENT${BASH_REMATCH[3]}"
@@ -423,7 +423,7 @@ function buildFeed() {
 	rm $WORK_DIR/rss-entries.tmp
 
 	# Delete temporary file rss_entries-desc.tmp
-	rm $WORK_DIR/rss-entries-desc.tmp
+	#rm $WORK_DIR/rss-entries-desc.tmp
 
 	# Delete temporary file feed.tmp
 	rm $WORK_DIR/feed.tmp
