@@ -198,6 +198,12 @@ function buildPost() {
             # Add an SVG icon to h2-h4 tags, to be shown on heading hover
             sed -i "s;^\(<h[2-4] id=\"\(.*\)\">\)\(.*\)\(<\/h[2-4]\);\1\3<a href=$BLOG_DOMAIN/$BLOG_DIR_NAME/$FILE_NAME.html#\2>$SVG<\/a>\4;g" $WORK_DIR$FILE_NAME.html
 
+            # Grab the article title from the first <h1> tag found
+            local ARTICLE_TITLE=$(grep -m1 "^<h1>" $WORK_DIR$FILE_NAME | sed "s|<h1>\(.*\)</h1>|\1|")
+
+            # Insert ARTICLE_TITLE into the first <title> tag
+            sed -i "0,/^[[:space:]]*<title>/ s|<title>.*</title>|<title>$ARTICLE_TITLE</title>|" $WORK_DIR$FILE_NAME.html
+
     	    # Delete the $FILE_NAME file which has no .html extension
     	    rm $WORK_DIR$FILE_NAME
 }
