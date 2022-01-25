@@ -386,8 +386,8 @@ function buildFeed() {
             # Set the FILE_NAME variable to the output of the basename command
             FILE_NAME=$(basename $WORK_DIR/${BASH_REMATCH[2]} | cut -d "." -f 1)
 
-            # Set the DESCRIPTION_CONTENT variable to the output of the head command
-            DESCRIPTION_CONTENT=$(cat $SOURCE_DIR$FILE_NAME.md | grep -v "Table of Contents" | grep -v "\- \[" | head -25 | sed "s|<.*>||g" | sed "s|#||g"  | sed "s|\[\(.*\)\](http.*)|\1|g" )
+            # Set the DESCRIPTION_CONTENT variable
+            DESCRIPTION_CONTENT=$(cat $SOURCE_DIR$FILE_NAME.md | grep -v "Table of Contents" | grep -v "\- \[" | head -25 | sed "s|<.*>||g" | sed "s|#||g"  | sed "s| \[\([^]]*\)\]([^]]*)| \1|g" )
 
             # Redifine the line variable to the output of the line reconstruction
             line="${BASH_REMATCH[1]}$DESCRIPTION_CONTENT${BASH_REMATCH[3]}"
