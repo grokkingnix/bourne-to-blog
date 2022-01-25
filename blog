@@ -379,8 +379,8 @@ function buildFeed() {
     # Add post contents to the RSS <description> tag
     cat $WORK_DIR/rss-entries.tmp | while read line; do
 
-    # Store the contents if line matches the regex
-    if [[ $line =~ (.*\<description>)(.*)(</description>.*) ]]
+        # Store the contents if line matches the regex
+        if [[ $line =~ (.*\<description>)(.*)(</description>.*) ]]
         then
 
             # Set the FILE_NAME variable to the output of the basename command
