@@ -429,7 +429,7 @@ function buildFeed() {
 	rm $WORK_DIR/rss-entries.tmp
 
 	# Delete temporary file rss_entries-desc.tmp
-	#rm $WORK_DIR/rss-entries-desc.tmp
+	rm $WORK_DIR/rss-entries-desc.tmp
 
 	# Delete temporary file feed.tmp
 	rm $WORK_DIR/feed.tmp
