@@ -111,7 +111,7 @@ Copy the generated public key to your SFTP server:
 
 Details of how to use Bourne to Blog with some examples.
 
-### Common Examples
+### Common Usage Examples
 
 Build all posts in the `$SOURCE_DIR`:
 
