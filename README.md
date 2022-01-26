@@ -174,7 +174,7 @@ For an example of how this index page will look please see [here](https://nixing
 
 ## Build and publish an RSS feed
 
-You can use the `-r` option in order to publish an upated RSS feed of our post entries. This feature is meant to be used along with the `-m` option when publishing a new post to your blog. The RSS feed `<items>` get created based on the format that the `-m` options generates. 
+You can use the `-r` option in order to publish an updated RSS feed of our post entries. This feature is meant to be used along with the `-m` option when publishing a new post to your blog. The RSS feed `<items>` get created based on the format that the `-m` options generates. 
 
 Examples: 
 
