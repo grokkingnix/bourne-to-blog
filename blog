@@ -478,6 +478,12 @@ function buildSitemap() {
     # Write the ouput to the feed.xml file
     done > $WORK_DIR/sitemap.xml
 
+    # Get current date to add to the blog index entry
+    local CURRENT_DATE=$(date '+%Y-%m-%d')
+
+    # Add the BLOG_DOMAIN and BLOG_MAIN as the first entry
+    sed -i "/^<urlset .*>/ a\ <url>\n<loc>$BLOG_DOMAIN$BLOG_MAIN$BLOG_INDEX</loc>\n<lastmod>$CURRENT_DATE</lastmod>\n</url>" $WORK_DIR/sitemap.xml
+
     # Upload the sitemap.xml file to the ROOT_WEB_DIR forcefully (Will overwrite if file exists)
     (echo cd $ROOT_WEB_DIR ; echo lcd $WORK_DIR; echo put sitemap.xml; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
 
