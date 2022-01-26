@@ -217,7 +217,7 @@ You can create your very own Wiki with Bourne to Blog, take a look at the `sampl
     
 ## To-do
 
-1. ~~Add sitemap.xml feature ~~
+1. ~~Add sitemap.xml feature~~
 1. ~~Add post title to HTML title tag~~
 1. ~~Integrate openring~~
 1. ~~Generate valid RFC822 date-times in the RSS feed~~
