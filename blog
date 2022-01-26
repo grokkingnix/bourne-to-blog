@@ -76,7 +76,8 @@ USAGE="Usage: The blog command takes the following options:
     -h	Define a custom header file for post building. i.e. blog -bh header-file
     -f	Define a custom footer file for post building. i.e. blog -bf footer-file
     -m  Build and publish the main blog index page from already published posts
-    -r  Build and publish the RSS feed file to the ROOT_WEB_DIR path on the public web server"
+    -r  Build and publish the RSS feed file to the ROOT_WEB_DIR path on the public web server
+    -S  Build and publish a sitemap.xml file to the ROOT_WEB_DIR path on the public web server"
 
 # Message when an flag does not have an argument and it should
 ARG_ERR_MSG="An option you provided requires an argument, see below.
@@ -136,10 +137,10 @@ COMPLETION_MSG="Posts Built"
 COMPLETION_MSG1="Post Built"
 
 # No files to upload message for the publishPosts function when the WORK_DIR folder is empty
-NO_FILES_MSG="There are no new posts to publish, the $WORK_DIR directory is empty. Try running blog -b first or blog -bf."
+NO_FILES_MSG="There are no new posts to publish, the $WORK_DIR directory is empty. Try running blog -b first or blog -bz."
 
 # No files to upload message for the publishPosts function when no new posts are found
-NO_FILES_MSG1="There are no new posts to publish, if you want to overwrite posts use the -f flag instead."
+NO_FILES_MSG1="There are no new posts to publish, if you want to overwrite posts use the -z flag instead."
 
 # Define the GREP_REGEX variable with the regex to obtain the date from the ls command
 GREP_REGEX="[0-9][0-9]:[0-9][0-9] [A-Za-z]"
