@@ -18,6 +18,7 @@
 - [Build and Publish Single Post](#build-and-publish-single-post)
 - [Build and Publish Blog Index Page](#build-and-publish-blog-index-page)
 - [Build and Publish an RSS feed](#build-and-publish-an-rss-feed)
+- [Build and Publish a sitemap](#build-and-publish-a-sitemap)
 - [Create a Wiki](#create-a-wiki)
 - [Use openring](#use-openring)
 - [To-do](#to-do)
