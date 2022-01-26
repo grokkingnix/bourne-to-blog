@@ -42,6 +42,7 @@ Bourne to Blog is meant to be simple and easy to use, these are the features cur
 2. Publish blog posts to a public web server via SFTP
 3. Build and publish RSS feed
 4. Build and publish posts page
+5. Build and publish sitemap.xml
 
 
 ## How it Works
@@ -179,6 +180,16 @@ Examples:
 This will build and publish a `feed.xml` file based on the contents of your blog index page:
 
     $ blog -r
+    
+## Build and publish a sitemap
+
+You can use the `-S` option in order to publish an updated sitemap from post entries. This feature is meant to be used along with the `-m` option when publishing a new post/s to your blog. The sitemap.xml `<url>` tags get created based on the format that the `-m` options generates. 
+
+Examples: 
+
+This will build and publish a `sitemap.xml` file based on the contents of your blog index page:
+
+    $ blog -S
 
 ## Create a Wiki
 
@@ -191,7 +202,7 @@ You can make use of [openring](https://git.sr.ht/~sircmpwn/openring) with the `-
     
 ## To-do
 
-1. Crate a sitemap.xml from posts
+1. ~~Add sitemap.xml feature ~~
 1. ~~Add post title to HTML title tag~~
 1. ~~Integrate openring~~
 1. ~~Generate valid RFC822 date-times in the RSS feed~~
