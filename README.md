@@ -62,7 +62,7 @@ The expected workflow is the following:
 - A Bash CLI environment (Not yet tested on other shell environments but I believe it should work as well)
 - The [discount](https://github.com/nueh/discount) markdown to html conversion tool
 - Internet access (Only for publishing)
-- An existing STFP capable public web server (Only for publishing)
+- An existing STFP capable public web server
 
 ## Installation
 
