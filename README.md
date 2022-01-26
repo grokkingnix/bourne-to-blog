@@ -8,19 +8,22 @@
 - [How it works](#how-it-works)
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Overall Installation Steps](#overall-installation-steps)
-- [Sample Files](#sample-files)
-- [SFTP Configuration](#sftp-configuration)
-- [Linux and OS X Installation](#linux-and-os-x-installation)
-- [Basic Usage](#basic-usage)
-- [Custom Header and Footer](#custom-header-and-footer)
-- [Force Publishing](#force-publishing)
-- [Build and Publish Single Post](#build-and-publish-single-post)
-- [Build and Publish Blog Index Page](#build-and-publish-blog-index-page)
-- [Build and Publish an RSS feed](#build-and-publish-an-rss-feed)
-- [Build and Publish a sitemap](#build-and-publish-a-sitemap)
-- [Create a Wiki](#create-a-wiki)
-- [Use openring](#use-openring)
+    - [Overall Installation Steps](#overall-installation-steps)
+    - [Sample Files](#sample-files)
+    - [SFTP Configuration](#sftp-configuration)
+    - [Linux and OS X Installation](#linux-and-os-x-installation)
+- [How to use Bourne to Blog](#how-to-use-bourne-to-blog)
+    - [Basic Usage](#basic-usage)
+    - [Custom Header and Footer](#custom-header-and-footer)
+    - [Force Publishing](#force-publishing)
+    - [Build and Publish Single Post](#build-and-publish-single-post)
+    - [Build and Publish Blog Index Page](#build-and-publish-blog-index-page)
+    - [Build and Publish an RSS feed](#build-and-publish-an-rss-feed)
+    - [Build and Publish a sitemap](#build-and-publish-a-sitemap)
+- [Modules](#modules)
+    - [Use openring](#use-openring)
+- [Other use cases](#other-use-cases)
+    - [Create a Wiki](#create-a-wiki)
 - [To-do](#to-do)
 
 ## About
@@ -102,7 +105,11 @@ Copy the generated public key to your SFTP server:
 6. `chmod +x /usr/local/bin/blog`
 7. `vim /usr/local/bin/blog`
 
-## Basic Usage
+## How to use Bourne to Blog
+
+Details of how to use Bourne to Blog with some examples
+
+### Basic Usage
 
 1. Simply create a text file using the markdown extension `.md` with your favorite text editor, for example:
 
@@ -122,7 +129,7 @@ Done! You can now visit your public web server address and check your blog post 
 
 In case you have any doubts about what the different options do, you can run `blog -H` to get some help.
 
-## Custom Header and Footer
+### Custom Header and Footer
 
 Additionally to the preset header and footer files that you configure, you can also specify the header and footer file on the fly for your posts. This feature can be beneficial when creating different type of posts within your blog, or using Bourne to Blog to build different blogs from the same system.
 
@@ -138,7 +145,7 @@ To specify both the header and footer file:
 
     $ blog -bh /home/user/header-file -f /home/user/footer-file
     
-## Force Publishing
+### Force Publishing
 
 By default Bourne to Blog does not overwrite the posts that already exist on your public SFTP server when using the `-p` flag. This avoids re-publishing posts and ultimately saves bandwidth.
 
@@ -146,13 +153,13 @@ In case you'd like to force all built posts to be published to your public SFTP 
 
     $ blog -bz
 
-## Build and Publish Single Post
+### Build and Publish Single Post
 
 By default when you build and publish posts Bourne to Blog will do this in batches. So if you have several articles you can simply run `blog -bp` and this will build all the posts and then publish all of them with this single command (This will not overwrite any duplicate file names in the SFTP server). 
 
 Alternatively you can build and publish a single post by using the `-s` flag, for example: `blog -bps file.md` this will only perform the building and publishing functions on the specified file.
 
-## Build and Publish Blog Index Page
+### Build and Publish Blog Index Page
 
 You can build and publish the blog index page with the `-m` option. Depending on your blog setup this can be thought of as your home page. Three variables need to be specified for this option to work:
 
@@ -172,7 +179,7 @@ This is because of how each post is parsed, the title and published date are exp
 
 For an example of how this index page will look please see [here](https://nixing.mx/index.html).
 
-## Build and publish an RSS feed
+### Build and publish an RSS feed
 
 You can use the `-r` option in order to publish an updated RSS feed of our post entries. This feature is meant to be used along with the `-m` option when publishing a new post to your blog. The RSS feed `<items>` get created based on the format that the `-m` options generates. 
 
@@ -182,7 +189,7 @@ This will build and publish a `feed.xml` file based on the contents of your blog
 
     $ blog -r
     
-## Build and publish a sitemap
+### Build and publish a sitemap
 
 You can use the `-S` option in order to publish an updated sitemap from post entries. This feature is meant to be used along with the `-m` option when publishing a new post/s to your blog. The sitemap.xml `<url>` tags get created based on the format that the `-m` options generates. 
 
@@ -192,14 +199,21 @@ This will build and publish a `sitemap.xml` file based on the contents of your b
 
     $ blog -S
 
-## Create a Wiki
+## Modules
 
-You can create your very own Wiki with Bourne to Blog, take a look at the `samples` folder for the files that can help you. You can see a detailed step by step guide [here](https://nixing.mx/posts/creating-a-wiki-with-bourne-to-blog.html)
+Bourne to Blog aims to be modular, below are some modules that have been created to add functionality to the core set of features.
 
-## Use Openring
+### Use Openring
 
 You can make use of [openring](https://git.sr.ht/~sircmpwn/openring) with the `-o` flag when building your posts. You need the additional `openring.sh` file from the `modules` folder. Configure the variable values and you can add the flag to your regular post build/publish workflow i.e. `blog -bops post-file.md`. You can find more details on this [post](https://nixing.mx/posts/integrating-openring-into-a-blog.html).
     
+## Other use cases
+
+Below are some additional use cases for Bourne to Blog that may be of interest to some.
+
+### Create a Wiki
+
+You can create your very own Wiki with Bourne to Blog, take a look at the `samples` folder for the files that can help you. You can see a detailed step by step guide [here](https://nixing.mx/posts/creating-a-wiki-with-bourne-to-blog.html)
     
 ## To-do
 
