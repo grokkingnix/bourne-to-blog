@@ -100,7 +100,7 @@ then
 fi
 
 # Define the flags the user can pass to the script
-while getopts :bpzHh:f:s:mro flag
+while getopts :bpzHh:f:s:mroS flag
 do
     case "${flag}" in
 	b) BUILD=true;;
@@ -112,6 +112,7 @@ do
 	m) MAIN=true;;
 	r) RSS=true;;
 	o) OPENRING=true;;
+	S) SITEMAP=true;;
 	H) blogUsage;;
 	:) echo "$ARG_ERR_MSG"
 	    blogUsage;;
@@ -124,6 +125,9 @@ EXEC_MSG="Building Posts"
 
 # Execution message for single post in the buildPosts function
 EXEC_MSG1="Building a single post"
+
+# Execution message for the buildSitemap function
+EXEC_MSG2="Generating sitemap"
 
 # Completion message for multiple posts in the buildPosts function
 COMPLETION_MSG="Posts Built"
@@ -435,6 +439,51 @@ function buildFeed() {
 	rm $WORK_DIR/feed.tmp
 }
 
+# Function that will build the blog sitemap
+function buildSitemap() {
+
+    # Print message while creating sitemap
+    echo "$EXEC_MSG2"
+
+    # curl the BLOG_MAIN_PAGE parse output with sed to create the sitemap items // Cleanup pending
+	curl -s $BLOG_MAIN_PAGE | sed -n "/<p>[0-9][0-9][0-9][0-9]/ s;<p>\(.*\) <a href=\"\(.*\)\">\(.*\)</a></p>;<url>\n<loc>$BLOG_DOMAIN$BLOG_MAIN\2</loc>\n<lastmod>\2</lastmod>\n</url>;p" >> $WORK_DIR/sitemap.tmp
+
+    # Add the sitemap heading to the sitemap.tmp file
+    sed -i "1s;^;<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n;" $WORK_DIR/sitemap.tmp
+
+    # Add the footer to the sitemap.tmp file
+    echo "</urlset>" >> $WORK_DIR/sitemap.tmp
+    
+    # Update dates on the generated sitemap.tmp file 
+    cat $WORK_DIR/sitemap.tmp | while IFS= read -r line; do
+
+        # Store the contents if line matches the regex
+        if [[ $line =~ (.*\<lastmod>)(.*)(</lastmod>.*) ]]
+        then
+
+            # Set the FILE_NAME variable to the output of the basename command
+            FILE_NAME=$(basename $WORK_DIR/${BASH_REMATCH[2]} | cut -d "." -f 1)
+
+            # Set the LAST_UPDATE_DATE variable
+            LAST_UPDATE_DATE=$(cat $SOURCE_DIR$FILE_NAME.md | grep -m1 "^#####" | awk '{print $7}' )
+
+            # Redifine the line variable to the output of the line reconstruction
+            line="${BASH_REMATCH[1]}$LAST_UPDATE_DATE${BASH_REMATCH[3]}"
+        fi
+
+        # Print the value of the line
+        echo "$line"
+        
+    # Write the ouput to the feed.xml file
+    done > $WORK_DIR/sitemap.xml
+
+    # Upload the sitemap.xml file to the ROOT_WEB_DIR forcefully (Will overwrite if file exists)
+    (echo cd $ROOT_WEB_DIR ; echo lcd $WORK_DIR; echo put sitemap.xml; echo quit) | sftp -i "$IDENTITY_FILE" "$USER"@"$HOST"
+
+	# Delete temporary file sitemap.tmp
+	rm $WORK_DIR/sitemap.tmp
+}
+
 # Execute the createOpenring function if the -o flag was specified by the user. 
 # This option will build and include the openring.html file to created posts 
 if [ $OPENRING ]
@@ -490,4 +539,13 @@ then
 
     # Call the buildFeed function
     buildFeed
+fi
+
+# Execute the buildSitemap function if the -S flag was specified by the user. 
+# This option will build and publish the sitemap.xml file to the web server
+if [ $SITEMAP ]
+then
+
+    # Call the buildSitemap function
+    buildSitemap
 fi
