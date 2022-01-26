@@ -13,7 +13,7 @@
     - [SFTP Configuration](#sftp-configuration)
     - [Linux Detailed Installation](#linux-detailed-installation)
 - [How to use Bourne to Blog](#how-to-use-bourne-to-blog)
-    - [Common Examples](#common-examples)
+    - [Common Usage Examples](#common-usage-examples)
     - [Basic Usage](#basic-usage)
     - [Custom Header and Footer](#custom-header-and-footer)
     - [Force Publishing](#force-publishing)
