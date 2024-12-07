@@ -125,6 +125,26 @@ h4:hover a {
   margin-left: 0.3rem;
 }
 
+/* Messages */
+.info, .warning, .danger {
+  padding: .5rem;
+  border-radius: var(--rc);
+  box-shadow: 0.2rem 0.3rem 0.5rem var(--shadow-color);
+  color: var(--message-text);
+}
+.info {
+  background-color: var(--message-info-background);
+  border: 1px solid var(--message-info-border);
+}
+.warning {
+  background-color: var(--message-warn-background);
+  border: 1px solid var(--message-warn-border);
+}
+.danger {
+  background-color: var(--message-danger-background);
+  border: 1px solid var(--message-danger-border);
+}
+
 /* Headers */
 h1,
 h2,
