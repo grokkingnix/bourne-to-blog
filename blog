@@ -190,6 +190,15 @@ function buildPost() {
     	    # Add HTML id attributes to h2-h4 header tags in the newly created HTML file
     	    sed -i 's/<h\([2-4]\)>\(.*\)<\/h[2-4]>/<h\1 id="\L\2">\E\2<\/h\1>/' $WORK_DIR$FILE_NAME.html
 
+            # Add the info class to messages that begin with "Info:"
+            sed -i 's/<p>Info:\(.*\)<\/p>/<p class="info">Info:\1<\/p>/' $WORK_DIR$FILE_NAME.html
+
+            # Add the warning class to messages that begin with "Warning:"
+            sed -i 's/<p>Warning:\(.*\)<\/p>/<p class="warning">Warning:\1<\/p>/' $WORK_DIR$FILE_NAME.html
+
+            # Add the danger class to messages that begin with "Danger:"
+            sed -i 's/<p>Danger:\(.*\)<\/p>/<p class="danger">Danger:\1<\/p>/' $WORK_DIR$FILE_NAME.html
+
     	    # This 3 part section will add hyphens to the id attributes added
     	    # Separate the id attributes from the header content in two separate lines
     	    sed -i '/^<h[2-4] id=".*">/ s/>/>\n/' $WORK_DIR$FILE_NAME.html
