@@ -16,6 +16,7 @@
     - [Common Usage Examples](#common-usage-examples)
     - [Basic Usage](#basic-usage)
     - [Custom Header and Footer](#custom-header-and-footer)
+    - [Custom Messages](#custom-messages)
     - [Force Publishing](#force-publishing)
     - [Build and Publish Single Post](#build-and-publish-single-post)
     - [Build and Publish Blog Index Page](#build-and-publish-blog-index-page)
@@ -181,6 +182,20 @@ To build a post with custom header and footer:
 
     $ blog -bh /home/user/header-file -f /home/user/footer-file
     
+### Custom Messages
+
+You can include custom messages in your posts by simply typing one of three message keywords:
+
+    Info:
+    Warning:
+    Danger:
+    
+Bourne to Blog will detect any lines that begin with these key words and will apply a class to them, this can be used together with CSS to create custom messages.
+
+You can check the samples' style-sample.css to see an example of CSS that could be used. This is what it  would look like in practice:
+
+![Custom Messages example](samples/img/custom-messages.png "Example of what custom messages would look like")
+    
 ### Force Publishing
 
 By default Bourne to Blog does not overwrite the posts that already exist on your public SFTP server when using the `-p` flag. This avoids re-publishing posts and ultimately saves bandwidth.
@@ -273,4 +288,5 @@ You can create your very own Wiki with Bourne to Blog, take a look at the `sampl
 1. ~~Add option to specify header and footer files to build posts with~~
 1. ~~Add CSS `id` attribute o all `h2-h4` HTML tags~~
 1. ~~Add major Linux distribution installation instructions~~
+1. ~~Add CSS class selector in order to display messages~~
 
