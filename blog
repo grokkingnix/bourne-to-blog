@@ -191,13 +191,13 @@ function buildPost() {
     	    sed -i 's/<h\([2-4]\)>\(.*\)<\/h[2-4]>/<h\1 id="\L\2">\E\2<\/h\1>/' $WORK_DIR$FILE_NAME.html
 
             # Add the info class to messages that begin with "Info:"
-            sed -i 's/<p>Info:\(.*\)<\/p>/<p class="info">Info:\1<\/p>/' $WORK_DIR$FILE_NAME.html
+            sed -i 's/<p>Info:\(.*\)<\/p>/<p class="info">\&#128161\1<\/p>/' $WORK_DIR$FILE_NAME.html
 
             # Add the warning class to messages that begin with "Warning:"
-            sed -i 's/<p>Warning:\(.*\)<\/p>/<p class="warning">Warning:\1<\/p>/' $WORK_DIR$FILE_NAME.html
+            sed -i 's/<p>Warning:\(.*\)<\/p>/<p class="warning">\&#9995\1<\/p>/' $WORK_DIR$FILE_NAME.html
 
             # Add the danger class to messages that begin with "Danger:"
-            sed -i 's/<p>Danger:\(.*\)<\/p>/<p class="danger">Danger:\1<\/p>/' $WORK_DIR$FILE_NAME.html
+            sed -i 's/<p>Danger:\(.*\)<\/p>/<p class="danger">\&#10071\1<\/p>/' $WORK_DIR$FILE_NAME.html
 
     	    # This 3 part section will add hyphens to the id attributes added
     	    # Separate the id attributes from the header content in two separate lines
